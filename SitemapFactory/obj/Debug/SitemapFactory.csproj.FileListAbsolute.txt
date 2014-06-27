@@ -1,0 +1,8 @@
+D:\SitemapFactory\SitemapFactory\bin\Debug\SitemapFactory.exe
+D:\SitemapFactory\SitemapFactory\bin\Debug\SitemapFactory.pdb
+D:\SitemapFactory\SitemapFactory\obj\Debug\SitemapFactory.csprojResolveAssemblyReference.cache
+D:\SitemapFactory\SitemapFactory\obj\Debug\SitemapFactory.Form1.resources
+D:\SitemapFactory\SitemapFactory\obj\Debug\SitemapFactory.Properties.Resources.resources
+D:\SitemapFactory\SitemapFactory\obj\Debug\SitemapFactory.csproj.GenerateResource.Cache
+D:\SitemapFactory\SitemapFactory\obj\Debug\SitemapFactory.exe
+D:\SitemapFactory\SitemapFactory\obj\Debug\SitemapFactory.pdb
