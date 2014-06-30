@@ -18,11 +18,14 @@ namespace SitemapFactory
         private String _siteName;
         private String _subsidiaryName = "";
 
-        private String _cspauthoringRoot = @"X:\";
+        public String _cspauthoringRoot = @"X:\";
 
         public Form1()
         {
             InitializeComponent();
+
+
+            
 
            // this.textBox1.BorderStyle = BorderStyle.None;
             this.txtSiteName.BorderStyle = BorderStyle.None;
@@ -95,7 +98,7 @@ namespace SitemapFactory
 
             this.dataGridView1.RowHeadersVisible = false;
 
-            doInit();
+          //  doInit();
         }
 
         private void adjustGridWidth()
@@ -121,7 +124,15 @@ namespace SitemapFactory
             if (match.Success)
             {
                 _siteName = match.Result("$1").TrimStart('/');
-                if (String.IsNullOrEmpty(_siteName)) this._siteName = match.Result("$2").TrimStart('/');
+                if (String.IsNullOrEmpty(_siteName))
+                {
+                    this._siteName = match.Result("$2").TrimStart('/');
+                    this._siteName = "enterprise\\" + this._siteName;
+                }
+                else {
+                    // en-gb
+                    this._siteName = this._siteName + "\\enterprise";
+                }
 
 
                 if (!string.IsNullOrEmpty(this._siteName))
@@ -132,6 +143,7 @@ namespace SitemapFactory
                 else
                 {
 
+                    this._subsidiaryName = "/enterprise";
                     this._siteName = string.Format("{0}SitePages\\", _cspauthoringRoot);
                 }
 
@@ -145,6 +157,20 @@ namespace SitemapFactory
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            InputFormDialog ifd = new InputFormDialog(this);
+
+            if (ifd.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
+            {
+
+            }
+            else
+            {
+                this.Close();
+                this.Dispose();
+                return;
+            }
+
+
             if (!string.IsNullOrEmpty(this._errorMsg))
             {
                 this.showMsgBox(this._errorMsg);
@@ -306,8 +332,10 @@ namespace SitemapFactory
                     saveFileDialog.FilterIndex = 0;
                     saveFileDialog.RestoreDirectory = true;
                     saveFileDialog.CreatePrompt = true;
-                    saveFileDialog.FileName = "sitemap" + (String.IsNullOrEmpty(this._subsidiaryName) ? "" : "_" + this._subsidiaryName) + ".xml";
+                    saveFileDialog.FileName = "sitemap" + ((String.IsNullOrEmpty(this._subsidiaryName) ? "" : "_" + this._subsidiaryName) + ".xml")
+                                                            .Replace("\\enterprise", "").Replace("enterprise\\", "");
                     saveFileDialog.Title = "Save path of the Sitemap to be exported";
+                    
 
                     if (saveFileDialog.ShowDialog() == DialogResult.OK)
                         v.SiteMapXmlDocument.Save(saveFileDialog.FileName);
@@ -344,10 +372,7 @@ namespace SitemapFactory
             this.dataGridView1.Height = this.dataGridView1.Height + changedHeight;
             this.richTextBox1.Height = this.richTextBox1.Height + changedHeight;
 
-            this.adjustGridWidth();
-
-
-            
+            this.adjustGridWidth();            
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
@@ -480,6 +505,8 @@ namespace SitemapFactory
             foreach (var item in this._dataGridView.Rows)
             {
                 DataGridViewRow row = item as DataGridViewRow;
+
+                row.Cells["FileStatus"].Value = FileStatus.Loading;
                 row.Cells["FileStatus"].Style.ForeColor = Color.Green;
 
                 // get page by url 
@@ -602,7 +629,7 @@ namespace SitemapFactory
             get
             {
                 String s = this.File.FullName.Substring(this.File.FullName.IndexOf(":") + 1);
-                return "http://www.microsoft.com/enterprise" + s.ToLower().Replace("\\sitepages", "").Replace("\\", "/").Replace(".xml", ".aspx");
+                return "http://www.microsoft.com" + s.ToLower().Replace("\\sitepages", "").Replace("\\", "/").Replace(".xml", ".aspx");
             }
         }
         public String Lastmod
@@ -630,7 +657,7 @@ namespace SitemapFactory
 
     public enum FileStatus
     {
-        None = 0, Draft = 1, Pending = 2, Approved = 3, Error = 4, Timeout = 5, _404 = 6
+        None = 0, Draft = 1, Pending = 2, Approved = 3, Error = 4, Timeout = 5, _404 = 6, Loading = 7
     }
 }
 

@@ -34,8 +34,8 @@
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.btnLoadStatus = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.txtSiteName = new System.Windows.Forms.TextBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtSiteName = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -93,17 +93,6 @@
             this.panel1.TabIndex = 7;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
-            // txtSiteName
-            // 
-            this.txtSiteName.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtSiteName.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSiteName.Location = new System.Drawing.Point(53, 1);
-            this.txtSiteName.Margin = new System.Windows.Forms.Padding(5);
-            this.txtSiteName.Name = "txtSiteName";
-            this.txtSiteName.Size = new System.Drawing.Size(855, 20);
-            this.txtSiteName.TabIndex = 8;
-            this.txtSiteName.Text = "www.microsoft.com/enterprise/default.aspx";
-            // 
             // textBox1
             // 
             this.textBox1.BackColor = System.Drawing.SystemColors.Window;
@@ -117,6 +106,17 @@
             this.textBox1.TabIndex = 9;
             this.textBox1.Text = "http://";
             this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // txtSiteName
+            // 
+            this.txtSiteName.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtSiteName.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtSiteName.Location = new System.Drawing.Point(53, 1);
+            this.txtSiteName.Margin = new System.Windows.Forms.Padding(5);
+            this.txtSiteName.Name = "txtSiteName";
+            this.txtSiteName.Size = new System.Drawing.Size(855, 20);
+            this.txtSiteName.TabIndex = 8;
+            this.txtSiteName.Text = "www.microsoft.com/enterprise/default.aspx";
             // 
             // Form1
             // 
