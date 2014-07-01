@@ -14,21 +14,25 @@ namespace SitemapFactory
 {
     public partial class Form1 : Form
     {
-        private String _errorMsg;
-        private String _siteName;
+        private SubsidiaryEntry[] _subsidiaryList;
+        private String[] _selectedSubsidiaryList;
         private String _subsidiaryName = "";
 
         public String _cspauthoringRoot = @"X:\";
+
+
+        private CheckedCombobox ccb = null;
 
         public Form1()
         {
             InitializeComponent();
 
+            this.Click += Form1_Click;
 
-            
+            ccb = new CheckedCombobox(this.panel2, this);
+            this.panel2.Visible = false;
 
-           // this.textBox1.BorderStyle = BorderStyle.None;
-            this.txtSiteName.BorderStyle = BorderStyle.None;
+
 
             this.MaximizeBox = false;
 
@@ -81,7 +85,8 @@ namespace SitemapFactory
 
             this.adjustGridWidth();
 
-            if (this.dataGridView1.Columns["Loc"].Width < 200) {
+            if (this.dataGridView1.Columns["Loc"].Width < 200)
+            {
                 this.dataGridView1.Columns["Loc"].Width = 200;
             }
 
@@ -98,7 +103,12 @@ namespace SitemapFactory
 
             this.dataGridView1.RowHeadersVisible = false;
 
-          //  doInit();
+            //  doInit();
+        }
+
+        void Form1_Click(object sender, EventArgs e)
+        {
+
         }
 
         private void adjustGridWidth()
@@ -117,42 +127,9 @@ namespace SitemapFactory
         {
             // http://www.microsoft.com/enterprise/en-us/default.aspx
 
-            _siteName = this.txtSiteName.Text.Trim().ToLower();
-            System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex("^www.microsoft.com(/[a-zA-Z]{2}-[a-zA-Z]{2})?/enterprise(/[a-zA-Z]{2}-[a-zA-Z]{2})?/default.aspx$");
-            var match = regex.Match(_siteName.Replace("http://", ""));
+            _selectedSubsidiaryList = this.ccb.txtDropDownInput.Text.TrimEnd(',').Split(',');
 
-            if (match.Success)
-            {
-                _siteName = match.Result("$1").TrimStart('/');
-                if (String.IsNullOrEmpty(_siteName))
-                {
-                    this._siteName = match.Result("$2").TrimStart('/');
-                    this._siteName = "enterprise\\" + this._siteName;
-                }
-                else {
-                    // en-gb
-                    this._siteName = this._siteName + "\\enterprise";
-                }
-
-
-                if (!string.IsNullOrEmpty(this._siteName))
-                {
-                    this._subsidiaryName = this._siteName;
-                    this._siteName = string.Format("{0}{1}\\SitePages\\", _cspauthoringRoot, this._siteName);
-                }
-                else
-                {
-
-                    this._subsidiaryName = "/enterprise";
-                    this._siteName = string.Format("{0}SitePages\\", _cspauthoringRoot);
-                }
-
-                _errorMsg = string.Empty;
-            }
-            else
-            {
-                _errorMsg = "Please input a correct site name!";
-            }
+            this._subsidiaryList = this.ccb.subsidiaryEntry;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -169,24 +146,27 @@ namespace SitemapFactory
                 this.Dispose();
                 return;
             }
-
-
-            if (!string.IsNullOrEmpty(this._errorMsg))
-            {
-                this.showMsgBox(this._errorMsg);
-                return;
-            }
         }
 
-        private IEnumerable<URLEntry> loadSitePages(String path)
+        private IEnumerable<URLEntry> loadSitePages(String siteName)
         {
 
             RecursionFolder r = new RecursionFolder();
             r.NotifyParentEvent += updateLogPanel;
 
+            if (siteName == "en-gb")
+            {
+
+                siteName = string.Format("{0}{1}\\enterprise\\sitepages", _cspauthoringRoot, siteName);
+            }
+            else {
+
+                siteName = string.Format("{0}enterprise\\{1}\\sitepages", _cspauthoringRoot, siteName);
+            }
+
 
             DelRecursionFolder drf = new DelRecursionFolder(r.Recursion);
-            drf.BeginInvoke(path, new AsyncCallback(loadSitePagesComplete), r);
+            drf.BeginInvoke(siteName, new AsyncCallback(loadSitePagesComplete), r);
 
             return r.files;
         }
@@ -194,18 +174,11 @@ namespace SitemapFactory
         private void showMsgBox(String errorMsg)
         {
             MessageBox.Show(errorMsg, "ERROR!");
-            this.txtSiteName.Focus();
-            this.txtSiteName.SelectAll();
         }
 
         private void btnGo_Click(object sender, EventArgs e)
         {
             this.doInit();
-            if (!string.IsNullOrEmpty(this._errorMsg))
-            {
-                this.showMsgBox(this._errorMsg);
-                return;
-            }
 
             this.dataGridView1.DataSource = null;
 
@@ -215,7 +188,18 @@ namespace SitemapFactory
 
             this.btnGo.Enabled = false;
             richTextBox1.Text = String.Empty;
-            this.loadSitePages(this._siteName);
+
+            var panel1 = this.ccb.Controls.Find("panel1", true);
+            if (panel1.Length > 0)
+            {
+                panel1[0].Visible = false;
+                ccb.adjustPostion();
+            }
+
+            foreach (var siteName in this._selectedSubsidiaryList)
+            {
+                this.loadSitePages(siteName);
+            }
         }
 
         private void loadSitePagesComplete(IAsyncResult itfAR)
@@ -305,13 +289,14 @@ namespace SitemapFactory
             this.btnLoadStatus.Invoke(action);
 
             LoadFileStatus lfs = new LoadFileStatus();
-            
+
             LoadFileDelegate lfd = new LoadFileDelegate(lfs.LoadFile);
             lfd.BeginInvoke(this.dataGridView1, new AsyncCallback(loadStatusComplete), lfs);
         }
 
         [STAThread]
-        private void loadStatusComplete(IAsyncResult itfAR) {
+        private void loadStatusComplete(IAsyncResult itfAR)
+        {
             var v = itfAR.AsyncState as LoadFileStatus;
 
 
@@ -326,7 +311,8 @@ namespace SitemapFactory
 
             if (v.SiteMapXmlDocument != null)
             {
-                Invoke((Action)(() => {
+                Invoke((Action)(() =>
+                {
                     SaveFileDialog saveFileDialog = new SaveFileDialog();
                     saveFileDialog.Filter = "XML files (*.xml)|*.xml";
                     saveFileDialog.FilterIndex = 0;
@@ -335,12 +321,12 @@ namespace SitemapFactory
                     saveFileDialog.FileName = "sitemap" + ((String.IsNullOrEmpty(this._subsidiaryName) ? "" : "_" + this._subsidiaryName) + ".xml")
                                                             .Replace("\\enterprise", "").Replace("enterprise\\", "");
                     saveFileDialog.Title = "Save path of the Sitemap to be exported";
-                    
+
 
                     if (saveFileDialog.ShowDialog() == DialogResult.OK)
                         v.SiteMapXmlDocument.Save(saveFileDialog.FileName);
                 }));
-               
+
             }
         }
 
@@ -363,16 +349,17 @@ namespace SitemapFactory
 
             this.btnGo.Left = this.btnGo.Left + changedWidth;
             this.btnLoadStatus.Left = this.btnLoadStatus.Left + changedWidth;
-            this.panel1.Width = this.panel1.Width + changedWidth;
+            this.panel2.Width = this.panel2.Width + changedWidth;
 
-            this.txtSiteName.Width = this.panel1.Width - 55;
 
-            this.dataGridView1.Width = this.panel1.Width;
-            this.richTextBox1.Width = this.panel1.Width;
+            this.dataGridView1.Width = this.panel2.Width;
+            this.richTextBox1.Width = this.panel2.Width;
             this.dataGridView1.Height = this.dataGridView1.Height + changedHeight;
             this.richTextBox1.Height = this.richTextBox1.Height + changedHeight;
 
-            this.adjustGridWidth();            
+            this.adjustGridWidth();
+
+            ccb.doResize(changedWidth, changedHeight);
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
@@ -438,6 +425,10 @@ namespace SitemapFactory
             return false;
         }
 
+        public void RecursionFolders(String[] path) {
+            foreach (var item in path)
+                this.Recursion(item);
+        }
 
         public void Recursion(String path)
         {
@@ -482,13 +473,16 @@ namespace SitemapFactory
         private DataGridView _dataGridView;
         private XDocument _siteMapDoc;
 
-        public XDocument SiteMapXmlDocument {
-            get {
+        public XDocument SiteMapXmlDocument
+        {
+            get
+            {
                 return this._siteMapDoc;
             }
         }
 
-        public LoadFileStatus() {
+        public LoadFileStatus()
+        {
             // xmlns=""http://www.sitemaps.org/schemas/sitemap/0.9""
             _siteMapDoc = XDocument.Parse(@"<?xml version=""1.0"" encoding=""UTF-8""?>
 <urlset>
@@ -527,10 +521,10 @@ namespace SitemapFactory
                     HttpWebResponse response = request.GetResponse() as HttpWebResponse;
                     HttpStatusCode status = response.StatusCode;
                     */
-                    
+
 
                     byte[] pageContent = wc.DownloadData(currUrl);
-                    
+
 
                     if (pageContent != null && pageContent.Length > 0) //status == HttpStatusCode.OK)
                     {
@@ -550,7 +544,8 @@ namespace SitemapFactory
                 }
                 catch (WebException we)
                 {
-                    if (we.Message.Contains("404")) {
+                    if (we.Message.Contains("404"))
+                    {
                         row.Cells["FileStatus"].Value = FileStatus._404.ToString();
                         row.Cells["FileStatus"].Style.ForeColor = Color.Red;
                     }
@@ -559,7 +554,8 @@ namespace SitemapFactory
                         row.Cells["FileStatus"].Value = FileStatus.Timeout.ToString();
                         row.Cells["FileStatus"].Style.ForeColor = Color.Aqua;
                     }
-                    else {
+                    else
+                    {
 
                         row.Cells["FileStatus"].Value = FileStatus.Error.ToString();
                         row.Cells["FileStatus"].Style.ForeColor = Color.Red;
@@ -574,13 +570,13 @@ namespace SitemapFactory
 
 
                 MethodInvoker action = delegate
-                { 
-                    this._dataGridView.FirstDisplayedScrollingRowIndex = row.Index; 
+                {
+                    this._dataGridView.FirstDisplayedScrollingRowIndex = row.Index;
                 };
 
                 this._dataGridView.BeginInvoke(action);
 
-                
+
             }
         }
 
@@ -655,6 +651,11 @@ namespace SitemapFactory
         }
     }
 
+    public class SubsidiaryEntry
+    {
+        public String Name { get; set; }
+        public DateTime SitemapLastModifyDate { get; set; }
+    }
     public enum FileStatus
     {
         None = 0, Draft = 1, Pending = 2, Approved = 3, Error = 4, Timeout = 5, _404 = 6, Loading = 7
