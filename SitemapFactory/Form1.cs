@@ -23,21 +23,80 @@ namespace SitemapFactory
 
         private CheckedCombobox ccb = null;
 
+        private void enableBtnResult()
+        {
+            this.btnResult.BackColor = System.Drawing.Color.Green;
+            this.btnResult.ForeColor = System.Drawing.Color.White;
+
+            this.btnLog.BackColor = System.Drawing.Color.Gray;
+            this.btnLog.ForeColor = System.Drawing.Color.White;
+        }
+        private void enableBtnLog()
+        {
+            this.btnLog.BackColor = System.Drawing.Color.Green;
+            this.btnLog.ForeColor = System.Drawing.Color.White;
+
+            this.btnResult.BackColor = System.Drawing.Color.Gray;
+            this.btnResult.ForeColor = System.Drawing.Color.White;
+        }
+
         public Form1()
         {
             InitializeComponent();
 
             this.Click += Form1_Click;
 
-            ccb = new CheckedCombobox(this.panel2, this);
-            this.panel2.Visible = false;
+            this.btnResult.BackColor = System.Drawing.Color.Gray;
+            this.btnResult.ForeColor = System.Drawing.Color.White;
 
+            this.btnLog.BackColor = System.Drawing.Color.Gray;
+            this.btnLog.ForeColor = System.Drawing.Color.White;
+
+            //this.btnResult.Margin = 0;
+            this.btnLog.Padding = new Padding(0, 0, 0, 0);
+            this.btnLog.Margin = new System.Windows.Forms.Padding(0, 0, 0, 0);
+
+            //this.btnLog.BackColor = System.Drawing.Color.Blue;
+            //this.btnLog.FlatStyle = FlatStyle.Flat;
+            //this.btnResult.FlatStyle = FlatStyle.Flat;
+            //this.btnLog.FlatAppearance.BorderColor = Color.Red;
+            //this.btnLog.FlatAppearance.BorderSize = 0;
+            //this.btnResult.FlatAppearance.BorderSize = 0;
+            this.cbbResultList.Visible = false;
+
+
+
+            ccb = new CheckedCombobox(this.panel2, this, this._cspauthoringRoot);
+            this.panel2.Visible = false;
+            this.richTextBox1.Visible = true;
+            this.btnResult.Visible = false;
+            this.richTextBox1.BorderStyle = BorderStyle.FixedSingle;
 
 
             this.MaximizeBox = false;
-
             this.btnLoadStatus.Visible = false;
-            this.dataGridView1.AutoGenerateColumns = false;
+
+            // var gridName = "gridName1";
+            // var grid = this.getDataGridView(gridName);
+
+            // this.panel_Grid.Controls.Add( grid);
+
+
+            //  doInit();
+        }
+
+        void Form1_Click(object sender, EventArgs e)
+        {
+            //this.ccb.btnDropDown.Click();
+        }
+
+        private DataGridView createDataGridView(string gridName)
+        {
+            var grid = new DataGridView();
+
+            grid.Name = gridName;
+            grid.AutoGenerateColumns = false;
+            grid.BorderStyle = BorderStyle.None;
 
 
             DataGridViewTextBoxColumn idColumn = new DataGridViewTextBoxColumn();
@@ -70,58 +129,42 @@ namespace SitemapFactory
             locColumn.DataPropertyName = "Loc";
             locColumn.HeaderText = "Loc";
 
-            this.dataGridView1.Columns.Add(idColumn);
-            this.dataGridView1.Columns.Add(fileStatusColumn);
-            this.dataGridView1.Columns.Add(changefreqColumn);
-            this.dataGridView1.Columns.Add(priorityColumn);
-            this.dataGridView1.Columns.Add(lastmodColumn);
-            this.dataGridView1.Columns.Add(locColumn);
+            grid.Columns.Add(idColumn);
+            grid.Columns.Add(fileStatusColumn);
+            grid.Columns.Add(changefreqColumn);
+            grid.Columns.Add(priorityColumn);
+            grid.Columns.Add(lastmodColumn);
+            grid.Columns.Add(locColumn);
 
-            this.dataGridView1.Columns["ID"].Width = 30;
-            this.dataGridView1.Columns["FileStatus"].Width = 70;
-            this.dataGridView1.Columns["Changefreq"].Width = 70;
-            this.dataGridView1.Columns["Priority"].Width = 50;
-            this.dataGridView1.Columns["Lastmod"].Width = 70;
+            grid.Columns["ID"].Width = 30;
+            grid.Columns["FileStatus"].Width = 60;
+            grid.Columns["Changefreq"].Width = 70;
+            grid.Columns["Priority"].Width = 50;
+            grid.Columns["Lastmod"].Width = 65;
 
-            this.adjustGridWidth();
+            HelperClass.adjustGridWidth(grid, this.panel_Grid);
 
-            if (this.dataGridView1.Columns["Loc"].Width < 200)
+            if (grid.Columns["Loc"].Width < 200)
             {
-                this.dataGridView1.Columns["Loc"].Width = 200;
+                grid.Columns["Loc"].Width = 200;
             }
 
-            this.dataGridView1.Columns["ID"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            this.dataGridView1.Columns["FileStatus"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            this.dataGridView1.Columns["Changefreq"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            this.dataGridView1.Columns["Priority"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            this.dataGridView1.Columns["Lastmod"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            this.dataGridView1.Columns["Loc"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            grid.Columns["ID"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            grid.Columns["FileStatus"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            grid.Columns["Changefreq"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            grid.Columns["Priority"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            grid.Columns["Lastmod"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            grid.Columns["Loc"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
 
 
-            this.dataGridView1.Columns["Changefreq"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            this.dataGridView1.Columns["Priority"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            grid.Columns["Changefreq"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            grid.Columns["Priority"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
-            this.dataGridView1.RowHeadersVisible = false;
+            grid.RowHeadersVisible = false;
 
-            //  doInit();
+            return grid;
         }
 
-        void Form1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void adjustGridWidth()
-        {
-
-            this.dataGridView1.Columns["Loc"].Width =
-                                                this.dataGridView1.Width
-                                                - this.dataGridView1.Columns["ID"].Width
-                                                - this.dataGridView1.Columns["FileStatus"].Width
-                                                - this.dataGridView1.Columns["Changefreq"].Width
-                                                - this.dataGridView1.Columns["Priority"].Width
-                                                - this.dataGridView1.Columns["Lastmod"].Width - 18;
-        }
 
         private void doInit()
         {
@@ -148,43 +191,52 @@ namespace SitemapFactory
             }
         }
 
-        private IEnumerable<URLEntry> loadSitePages(String siteName)
-        {
-
-            RecursionFolder r = new RecursionFolder();
-            r.NotifyParentEvent += updateLogPanel;
-
-            if (siteName == "en-gb")
-            {
-
-                siteName = string.Format("{0}{1}\\enterprise\\sitepages", _cspauthoringRoot, siteName);
-            }
-            else {
-
-                siteName = string.Format("{0}enterprise\\{1}\\sitepages", _cspauthoringRoot, siteName);
-            }
-
-
-            DelRecursionFolder drf = new DelRecursionFolder(r.Recursion);
-            drf.BeginInvoke(siteName, new AsyncCallback(loadSitePagesComplete), r);
-
-            return r.files;
-        }
 
         private void showMsgBox(String errorMsg)
         {
             MessageBox.Show(errorMsg, "ERROR!");
         }
 
+        private void clearGrid()
+        {
+            foreach (var item in this.panel_Grid.Controls)
+            {
+                var grid = item as DataGridView;
+                if (grid != null)
+                {
+                    this.panel_Grid.Controls.Remove(grid);
+                }
+            }
+        }
+
+        private DataGridView getGrid(String subsidiaryName)
+        {
+            foreach (var item in this.panel_Grid.Controls)
+            {
+                var grid = item as DataGridView;
+                if (grid != null && grid.Name == subsidiaryName)
+                    return grid;
+            }
+
+            return null;
+        }
+
         private void btnGo_Click(object sender, EventArgs e)
         {
             this.doInit();
 
-            this.dataGridView1.DataSource = null;
+            this.clearGrid();
+            this.cbbResultList.Items.Clear();
+            this.cbbResultList.SelectedText = string.Empty;
+            this.cbbResultList.Visible = false;
 
-            this.dataGridView1.Visible = false;
+            this.ccb.txtDropDownInput.Enabled = false;
+            this.ccb.btnDropDown.Enabled = false;
             this.btnLoadStatus.Visible = false;
             this.richTextBox1.Visible = true;
+            this.panel_Grid.Visible = false;
+            this.btnResult.Visible = false;
+            this.enableBtnLog();
 
             this.btnGo.Enabled = false;
             richTextBox1.Text = String.Empty;
@@ -192,15 +244,103 @@ namespace SitemapFactory
             var panel1 = this.ccb.Controls.Find("panel1", true);
             if (panel1.Length > 0)
             {
-                panel1[0].Visible = false;
-                ccb.adjustPostion();
+                if (panel1[0].Visible)
+                {
+                    panel1[0].Visible = false;
+                    ccb.adjustPostion();
+                }
             }
+
 
             foreach (var siteName in this._selectedSubsidiaryList)
             {
+                //this.cbbResultList.Items.Add(siteName);
+                //this.cbbResultList.SelectedIndex = 0;
                 this.loadSitePages(siteName);
             }
         }
+
+        private IEnumerable<URLEntry> loadSitePages(String siteName)
+        {
+
+            RecursionFolder r = new RecursionFolder();
+            r.NotifyParentEvent += updateLogPanel;
+            r.subsidiaryName = siteName;
+
+            var path = "";
+
+            if (siteName == "en-gb")
+            {
+
+                path = string.Format("{0}{1}\\enterprise\\sitepages", _cspauthoringRoot, siteName);
+            }
+            else
+            {
+
+                path = string.Format("{0}enterprise\\{1}\\sitepages", _cspauthoringRoot, siteName);
+            }
+
+
+            DelRecursionFolder drf = new DelRecursionFolder(r.Recursion);
+            drf.BeginInvoke(path, new AsyncCallback(loadSitePagesComplete), r);
+
+            //  r.Recursion(path);
+            //this.loadSitePagesComplete(r.files, r.subsidiaryName);
+
+            return r.files;
+        }
+
+        //private void loadSitePagesComplete(List<URLEntry> urlEntryList, String subsidiaryName)
+        //{
+        //    MethodInvoker action = null;
+        //    if (urlEntryList == null) return;
+
+        //    // create grid
+        //    var grid = createDataGridView(subsidiaryName);
+
+        //    action = delegate
+        //    {
+        //        this.cbbResultList.Items.Add(subsidiaryName);
+        //        var isVisible = false;
+
+        //        if (this.cbbResultList.Items.Count == 1)
+        //        {
+        //            this.cbbResultList.SelectedIndex = 0;
+        //            isVisible = true;
+        //        }
+
+        //        if (this.cbbResultList.Items.Count == _selectedSubsidiaryList.Length)
+        //        {
+        //            MethodInvoker action3 = delegate
+        //            {
+        //                this.ccb.txtDropDownInput.Enabled = true;
+        //            };
+        //            this.ccb.txtDropDownInput.Invoke(action3);
+
+
+        //            MethodInvoker action4 = delegate
+        //            {
+        //                this.ccb.btnDropDown.Enabled = true;
+        //            };
+        //            this.ccb.btnDropDown.Invoke(action4);
+        //        }
+
+        //        MethodInvoker action2 = delegate
+        //        {
+        //            this.panel_Grid.Visible = true;
+        //            this.panel_Grid.Controls.Add(grid);
+        //            grid.Visible = isVisible;
+        //            this.enableBtnResult();
+        //        };
+
+
+        //        this.panel_Grid.Invoke(action2);
+        //    };
+
+        //    this.cbbResultList.Invoke(action);
+
+        //    this.bindData(urlEntryList, subsidiaryName);
+        //}
 
         private void loadSitePagesComplete(IAsyncResult itfAR)
         {
@@ -208,27 +348,83 @@ namespace SitemapFactory
             { this.btnGo.Enabled = true; };
             this.btnGo.BeginInvoke(action);
 
+            action = delegate
+            { this.btnResult.Visible = false; };
+            this.btnResult.Invoke(action);
+
+            action = delegate
+            { this.cbbResultList.Visible = true; };
+            this.cbbResultList.Invoke(action);
+
             var v = itfAR.AsyncState as RecursionFolder;
             if (v != null)
             {
                 var urlEntryList = v.files;
 
+
                 if (urlEntryList != null)
                 {
-                    // dispaly grid
-                    this.bindData(urlEntryList);
+                    // create grid
+                    var grid = createDataGridView(v.subsidiaryName);
+
+                    action = delegate
+                    {
+                        this.cbbResultList.Items.Add(v.subsidiaryName);
+                        var isVisible = false;
+
+                        if (this.cbbResultList.Items.Count == 1)
+                        {
+                            this.cbbResultList.SelectedIndex = 0;
+                            isVisible = true;
+                        }
+
+                        if (this.cbbResultList.Items.Count == _selectedSubsidiaryList.Length)
+                        {
+                            MethodInvoker action3 = delegate
+                            {
+                                this.ccb.txtDropDownInput.Enabled = true;
+                            };
+                            this.ccb.txtDropDownInput.Invoke(action3);
+
+
+                            MethodInvoker action4 = delegate
+                            {
+                                this.ccb.btnDropDown.Enabled = true;
+                            };
+                            this.ccb.btnDropDown.Invoke(action4);
+                        }
+
+                        MethodInvoker action2 = delegate
+                        {
+                            this.panel_Grid.Visible = true;
+                            this.panel_Grid.Controls.Add(grid);
+                            grid.Visible = isVisible;
+                            this.enableBtnResult();
+                        };
+
+
+                        this.panel_Grid.Invoke(action2);
+                    };
+
+                    this.cbbResultList.Invoke(action);
+
+                    this.bindData(urlEntryList, v.subsidiaryName);
                 }
             }
         }
 
-        private void bindData(List<URLEntry> urlEntryList)
+        private void bindData(List<URLEntry> urlEntryList, String subsidiaryName)
         {
+
+            var currGrid = this.getGrid(subsidiaryName);
+            if (currGrid == null) return;
+
             MethodInvoker action = delegate
             {
-                this.dataGridView1.DataSource = urlEntryList;
+                currGrid.DataSource = urlEntryList;
             };
 
-            this.dataGridView1.Invoke(action);
+            currGrid.Invoke(action);
 
 
             if (urlEntryList.Count > 0)
@@ -249,12 +445,15 @@ namespace SitemapFactory
 
                 this.btnLoadStatus.Invoke(action);
 
-                action = delegate
-                {
-                    this.dataGridView1.Visible = true;
-                };
+                // action = delegate
+                // {
+                //TODOcurrGrid.Visible = true;
+                // };
 
-                this.dataGridView1.BeginInvoke(action);
+                //this.dataGridView1.BeginInvoke(action);
+
+
+
             }
         }
 
@@ -270,14 +469,17 @@ namespace SitemapFactory
                 richTextBox1.ScrollToCaret();
             };
             richTextBox1.BeginInvoke(action);
+
+            //richTextBox1.Text += (msg + Environment.NewLine);
+
+            //richTextBox1.SelectionStart = richTextBox1.Text.Length;
+            //richTextBox1.ScrollToCaret();
         }
 
         private void UpdateRichTextBox(String text)
         {
             this.richTextBox1.AppendText(this.richTextBox1.Text + text + Environment.NewLine);
         }
-
-
 
         private void btnLoadStatus_Click(object sender, EventArgs e)
         {
@@ -288,10 +490,16 @@ namespace SitemapFactory
 
             this.btnLoadStatus.Invoke(action);
 
-            LoadFileStatus lfs = new LoadFileStatus();
-
-            LoadFileDelegate lfd = new LoadFileDelegate(lfs.LoadFile);
-            lfd.BeginInvoke(this.dataGridView1, new AsyncCallback(loadStatusComplete), lfs);
+            foreach (var item in this.panel_Grid.Controls)
+            {
+                var grid = item as DataGridView;
+                if (grid != null)
+                {
+                    LoadFileStatus lfs = new LoadFileStatus();
+                    LoadFileDelegate lfd = new LoadFileDelegate(lfs.LoadFile);
+                    lfd.BeginInvoke(grid, new AsyncCallback(loadStatusComplete), lfs);
+                }
+            }
         }
 
         [STAThread]
@@ -332,11 +540,14 @@ namespace SitemapFactory
 
         private int _formWidth = 0;
         private int _formHeight = 0;
+        private int _ccbPanelHeight = 0;
 
         private void Form1_ResizeBegin(object sender, EventArgs e)
         {
             this._formWidth = this.Width;
             this._formHeight = this.Height;
+
+            _ccbPanelHeight = this.ccb.panel.Height;
         }
 
         private void Form1_ResizeEnd(object sender, EventArgs e)
@@ -347,25 +558,136 @@ namespace SitemapFactory
             var changedWidth = this.Width - this._formWidth;
             var changedHeight = this.Height - this._formHeight;
 
+
+
             this.btnGo.Left = this.btnGo.Left + changedWidth;
             this.btnLoadStatus.Left = this.btnLoadStatus.Left + changedWidth;
             this.panel2.Width = this.panel2.Width + changedWidth;
 
 
-            this.dataGridView1.Width = this.panel2.Width;
+            this.panel_Grid.Width = this.panel2.Width;
             this.richTextBox1.Width = this.panel2.Width;
-            this.dataGridView1.Height = this.dataGridView1.Height + changedHeight;
+            this.panel_Grid.Height = this.panel_Grid.Height + changedHeight;
             this.richTextBox1.Height = this.richTextBox1.Height + changedHeight;
 
-            this.adjustGridWidth();
+
+            foreach (var item in this.panel_Grid.Controls)
+            {
+                var grid = item as DataGridView;
+                if (grid != null)
+                {
+                    HelperClass.adjustGridWidth(grid, this.panel_Grid);
+                }
+            }
+
 
             ccb.doResize(changedWidth, changedHeight);
+
+
+            //_ccbPanelHeight = this.ccb.panel.Height;
+
+            //ccb.adjustPostion();
+            if (ccb.panel.Visible)
+                this.adjustAgain(this.ccb.panel.Height - _ccbPanelHeight);
+        }
+
+        private void adjustAgain(int height)
+        {
+            var btnLog = this.Controls.Find("btnLog", true)[0] as Button;
+            var btnResult = this.Controls.Find("btnResult", true)[0] as Button;
+            var cbbResultList = this.Controls.Find("cbbResultList", true)[0] as ComboBox;
+            var btnLoadStatus = this.Controls.Find("btnLoadStatus", true)[0] as Button;
+
+            btnLog.Location = new Point(btnLog.Location.X, btnLog.Location.Y + height);
+            btnResult.Location = new Point(btnResult.Location.X, btnResult.Location.Y + height);
+            cbbResultList.Location = new Point(cbbResultList.Location.X, cbbResultList.Location.Y + height);
+            btnLoadStatus.Location = new Point(btnLoadStatus.Location.X, btnLoadStatus.Location.Y + height);
+
+            this.richTextBox1.Location = new Point(this.richTextBox1.Location.X, this.richTextBox1.Location.Y + height);
+            this.panel_Grid.Location = new Point(this.panel_Grid.Location.X, this.panel_Grid.Location.Y + height);
+
+
+
+            var hh = this.Height - this.btnLog.Location.Y - this.btnLog.Height - 55;
+            this.richTextBox1.Height = hh;
+            this.panel_Grid.Height = hh;
+
+            foreach (var item in this.panel_Grid.Controls)
+            {
+                var grid = item as DataGridView;
+                if (grid != null)
+                    HelperClass.adjustGridWidth(grid, this.panel_Grid);
+            }
+
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
             Panel p = sender as Panel;
             ControlPaint.DrawBorder(e.Graphics, p.DisplayRectangle, Color.Gray, ButtonBorderStyle.Solid);
+        }
+
+        private void btnLog_Click(object sender, EventArgs e)
+        {
+            this.enableBtnLog();
+
+            this.richTextBox1.Visible = true;
+            this.panel_Grid.Visible = false;
+
+            if (this.cbbResultList.Visible)
+                this.btnResult.Visible = true;
+
+            this.cbbResultList.Visible = false;
+        }
+
+        private void btnResult_Click(object sender, EventArgs e)
+        {
+            this.enableBtnResult();
+
+            this.richTextBox1.Visible = false;
+            this.panel_Grid.Visible = true;
+            this.btnResult.Visible = false;
+            this.cbbResultList.Visible = true;
+        }
+
+        private void cbbResultList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var currCBB = sender as ComboBox;
+            if (currCBB == null) return;
+
+            var currSubName = currCBB.SelectedItem == null ? "" : currCBB.SelectedItem.ToString();
+
+            if (String.IsNullOrEmpty(currSubName)) return;
+
+            foreach (var item in this.panel_Grid.Controls)
+            {
+                var grid = item as DataGridView;
+                if (grid != null && grid.Name.ToLower() == currSubName.ToLower())
+                {
+                    grid.Visible = true;
+                }
+                else if (grid != null)
+                {
+                    grid.Visible = false;
+                }
+            }
+        }
+    }
+
+
+    public static class HelperClass
+    {
+        public static void adjustGridWidth(DataGridView grid, Panel panel)
+        {
+            grid.Width = panel.Width;
+            grid.Height = panel.Height;
+
+            grid.Columns["Loc"].Width = grid.Width
+                                        - grid.Columns["ID"].Width
+                                        - grid.Columns["FileStatus"].Width
+                                        - grid.Columns["Changefreq"].Width
+                                        - grid.Columns["Priority"].Width
+                                        - grid.Columns["Lastmod"].Width - 18;
         }
     }
 
@@ -376,6 +698,7 @@ namespace SitemapFactory
     public class RecursionFolder
     {
         public List<URLEntry> files = null;
+        public String subsidiaryName = null;
 
         public event NotifyParentDelegate NotifyParentEvent;
 
@@ -425,7 +748,8 @@ namespace SitemapFactory
             return false;
         }
 
-        public void RecursionFolders(String[] path) {
+        public void RecursionFolders(String[] path)
+        {
             foreach (var item in path)
                 this.Recursion(item);
         }

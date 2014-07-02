@@ -28,13 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.btnGo = new System.Windows.Forms.Button();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.btnLoadStatus = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.panel_Grid = new System.Windows.Forms.Panel();
+            this.btnLog = new System.Windows.Forms.Button();
+            this.btnResult = new System.Windows.Forms.Button();
+            this.cbbResultList = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // btnGo
@@ -51,28 +52,17 @@
             // 
             // richTextBox1
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(15, 44);
+            this.richTextBox1.Location = new System.Drawing.Point(15, 76);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(909, 457);
+            this.richTextBox1.Size = new System.Drawing.Size(909, 422);
             this.richTextBox1.TabIndex = 3;
             this.richTextBox1.Text = "";
             this.richTextBox1.Visible = false;
             // 
-            // dataGridView1
-            // 
-            this.dataGridView1.BackgroundColor = System.Drawing.SystemColors.Window;
-            this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(17, 45);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(906, 456);
-            this.dataGridView1.TabIndex = 4;
-            this.dataGridView1.Visible = false;
-            // 
             // btnLoadStatus
             // 
             this.btnLoadStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnLoadStatus.Location = new System.Drawing.Point(935, 44);
+            this.btnLoadStatus.Location = new System.Drawing.Point(935, 76);
             this.btnLoadStatus.Name = "btnLoadStatus";
             this.btnLoadStatus.Size = new System.Drawing.Size(75, 47);
             this.btnLoadStatus.TabIndex = 5;
@@ -88,23 +78,62 @@
             this.panel2.Size = new System.Drawing.Size(909, 486);
             this.panel2.TabIndex = 8;
             // 
+            // panel_Grid
+            // 
+            this.panel_Grid.BackColor = System.Drawing.SystemColors.Window;
+            this.panel_Grid.Location = new System.Drawing.Point(15, 76);
+            this.panel_Grid.Name = "panel_Grid";
+            this.panel_Grid.Size = new System.Drawing.Size(909, 422);
+            this.panel_Grid.TabIndex = 9;
+            this.panel_Grid.Visible = false;
+            // 
+            // btnLog
+            // 
+            this.btnLog.Location = new System.Drawing.Point(14, 51);
+            this.btnLog.Name = "btnLog";
+            this.btnLog.Size = new System.Drawing.Size(75, 23);
+            this.btnLog.TabIndex = 10;
+            this.btnLog.Text = "Log";
+            this.btnLog.UseVisualStyleBackColor = true;
+            this.btnLog.Click += new System.EventHandler(this.btnLog_Click);
+            // 
+            // btnResult
+            // 
+            this.btnResult.Location = new System.Drawing.Point(91, 51);
+            this.btnResult.Name = "btnResult";
+            this.btnResult.Size = new System.Drawing.Size(75, 23);
+            this.btnResult.TabIndex = 11;
+            this.btnResult.Text = "Results";
+            this.btnResult.UseVisualStyleBackColor = true;
+            this.btnResult.Click += new System.EventHandler(this.btnResult_Click);
+            // 
+            // cbbResultList
+            // 
+            this.cbbResultList.FormattingEnabled = true;
+            this.cbbResultList.Location = new System.Drawing.Point(91, 52);
+            this.cbbResultList.Name = "cbbResultList";
+            this.cbbResultList.Size = new System.Drawing.Size(75, 21);
+            this.cbbResultList.TabIndex = 0;
+            this.cbbResultList.SelectedIndexChanged += new System.EventHandler(this.cbbResultList_SelectedIndexChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1026, 513);
+            this.Controls.Add(this.cbbResultList);
+            this.Controls.Add(this.btnResult);
+            this.Controls.Add(this.btnLog);
+            this.Controls.Add(this.panel_Grid);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.btnLoadStatus);
-            this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.btnGo);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "Sitemap Factory";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResizeBegin += new System.EventHandler(this.Form1_ResizeBegin);
             this.ResizeEnd += new System.EventHandler(this.Form1_ResizeEnd);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -113,9 +142,12 @@
 
         private System.Windows.Forms.Button btnGo;
         private System.Windows.Forms.RichTextBox richTextBox1;
-        private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Button btnLoadStatus;
         private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Panel panel_Grid;
+        private System.Windows.Forms.Button btnLog;
+        private System.Windows.Forms.Button btnResult;
+        private System.Windows.Forms.ComboBox cbbResultList;
     }
 }
 
