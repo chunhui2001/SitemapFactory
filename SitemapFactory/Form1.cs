@@ -43,6 +43,8 @@ namespace SitemapFactory
         {
             InitializeComponent();
 
+
+
             this.Click += Form1_Click;
 
             this.btnResult.BackColor = System.Drawing.Color.Gray;
@@ -69,6 +71,13 @@ namespace SitemapFactory
             this.btnLoadStatus.Visible = false;
 
             //doInit();
+        }
+
+        void CSPAUTHORING_DRIVE_NAME_Click(object sender, EventArgs e)
+        {
+            var txt = sender as TextBox;
+            txt.Text = string.Empty;
+            txt.Width = 3000;
         }
 
         void Form1_Click(object sender, EventArgs e)
@@ -608,7 +617,7 @@ new SubsidiaryEntry(){ Name = "zh-tw" 				   , SitemapLastModifyDate = DateTime.
             }
         }
 
-        public String Outputdir = "D:\\outputdir";
+        public String Outputdir = "D:\\EPGSitemapOutputDir";
         private int _formWidth = 0;
         private int _formHeight = 0;
         private int _ccbPanelHeight = 0;
@@ -743,6 +752,21 @@ new SubsidiaryEntry(){ Name = "zh-tw" 				   , SitemapLastModifyDate = DateTime.
                     grid.Visible = false;
                 }
             }
+        }
+
+        private void CSPAUTHORING_DRIVE_NAME_Click_1(object sender, EventArgs e)
+        {
+            var txt = sender as ToolStripTextBox;
+
+            txt.Text = string.Empty;
+        }
+
+        private void OUTPUT_DIR_Click(object sender, EventArgs e)
+        {
+
+            var txt = sender as ToolStripTextBox;
+
+            txt.Text = string.Empty;
         }
     }
 
