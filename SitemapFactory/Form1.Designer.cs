@@ -109,6 +109,7 @@
             // 
             // cbbResultList
             // 
+            this.cbbResultList.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbbResultList.FormattingEnabled = true;
             this.cbbResultList.Location = new System.Drawing.Point(91, 52);
             this.cbbResultList.Name = "cbbResultList";

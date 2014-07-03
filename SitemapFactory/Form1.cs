@@ -63,10 +63,14 @@ namespace SitemapFactory
             //this.btnLog.FlatAppearance.BorderSize = 0;
             //this.btnResult.FlatAppearance.BorderSize = 0;
             this.cbbResultList.Visible = false;
+            this.cbbResultList.FlatStyle = FlatStyle.Flat;
+            this.cbbResultList.BackColor = System.Drawing.Color.Green;
+            this.cbbResultList.ForeColor = System.Drawing.Color.White;
+            //this.cbbResultList.Font.Bold = true;
+            
 
 
-
-            ccb = new CheckedCombobox(this.panel2, this, this._cspauthoringRoot);
+            ccb = new CheckedCombobox(this.panel2, this);
             this.panel2.Visible = false;
             this.richTextBox1.Visible = true;
             this.btnResult.Visible = false;
@@ -189,6 +193,8 @@ namespace SitemapFactory
                 this.Dispose();
                 return;
             }
+
+            this.ccb._cspauthoringRoot = this._cspauthoringRoot;
         }
 
 
@@ -252,95 +258,18 @@ namespace SitemapFactory
             }
 
 
-            foreach (var siteName in this._selectedSubsidiaryList)
-            {
-                //this.cbbResultList.Items.Add(siteName);
-                //this.cbbResultList.SelectedIndex = 0;
-                this.loadSitePages(siteName);
-            }
+            
+            this.loadSitePages(this._selectedSubsidiaryList);
         }
 
-        private IEnumerable<URLEntry> loadSitePages(String siteName)
+        private void loadSitePages(String[] selectedSubsidiaryList)
         {
-
-            RecursionFolder r = new RecursionFolder();
+            RecursionFolder r = new RecursionFolder(selectedSubsidiaryList, this._cspauthoringRoot);
             r.NotifyParentEvent += updateLogPanel;
-            r.subsidiaryName = siteName;
 
-            var path = "";
-
-            if (siteName == "en-gb")
-            {
-
-                path = string.Format("{0}{1}\\enterprise\\sitepages", _cspauthoringRoot, siteName);
-            }
-            else
-            {
-
-                path = string.Format("{0}enterprise\\{1}\\sitepages", _cspauthoringRoot, siteName);
-            }
-
-
-            DelRecursionFolder drf = new DelRecursionFolder(r.Recursion);
-            drf.BeginInvoke(path, new AsyncCallback(loadSitePagesComplete), r);
-
-            //  r.Recursion(path);
-            //this.loadSitePagesComplete(r.files, r.subsidiaryName);
-
-            return r.files;
+            DelRecursion drf = new DelRecursion(r.Recursion);
+            drf.BeginInvoke(new AsyncCallback(loadSitePagesComplete), r);
         }
-
-        //private void loadSitePagesComplete(List<URLEntry> urlEntryList, String subsidiaryName)
-        //{
-        //    MethodInvoker action = null;
-        //    if (urlEntryList == null) return;
-
-        //    // create grid
-        //    var grid = createDataGridView(subsidiaryName);
-
-        //    action = delegate
-        //    {
-        //        this.cbbResultList.Items.Add(subsidiaryName);
-        //        var isVisible = false;
-
-        //        if (this.cbbResultList.Items.Count == 1)
-        //        {
-        //            this.cbbResultList.SelectedIndex = 0;
-        //            isVisible = true;
-        //        }
-
-        //        if (this.cbbResultList.Items.Count == _selectedSubsidiaryList.Length)
-        //        {
-        //            MethodInvoker action3 = delegate
-        //            {
-        //                this.ccb.txtDropDownInput.Enabled = true;
-        //            };
-        //            this.ccb.txtDropDownInput.Invoke(action3);
-
-
-        //            MethodInvoker action4 = delegate
-        //            {
-        //                this.ccb.btnDropDown.Enabled = true;
-        //            };
-        //            this.ccb.btnDropDown.Invoke(action4);
-        //        }
-
-        //        MethodInvoker action2 = delegate
-        //        {
-        //            this.panel_Grid.Visible = true;
-        //            this.panel_Grid.Controls.Add(grid);
-        //            grid.Visible = isVisible;
-        //            this.enableBtnResult();
-        //        };
-
-
-        //        this.panel_Grid.Invoke(action2);
-        //    };
-
-        //    this.cbbResultList.Invoke(action);
-
-        //    this.bindData(urlEntryList, subsidiaryName);
-        //}
 
         private void loadSitePagesComplete(IAsyncResult itfAR)
         {
@@ -359,56 +288,61 @@ namespace SitemapFactory
             var v = itfAR.AsyncState as RecursionFolder;
             if (v != null)
             {
-                var urlEntryList = v.files;
+                var result = v.result;
 
-
-                if (urlEntryList != null)
+                foreach (var item in result)
                 {
-                    // create grid
-                    var grid = createDataGridView(v.subsidiaryName);
+                    var urlEntryList = item.Value;
+                    var subsidiaryName = item.Key;
 
-                    action = delegate
+
+                    if (urlEntryList != null)
                     {
-                        this.cbbResultList.Items.Add(v.subsidiaryName);
-                        var isVisible = false;
+                        // create grid
+                        var grid = createDataGridView(subsidiaryName);
 
-                        if (this.cbbResultList.Items.Count == 1)
+                        action = delegate
                         {
-                            this.cbbResultList.SelectedIndex = 0;
-                            isVisible = true;
-                        }
+                            this.cbbResultList.Items.Add(subsidiaryName);
+                            var isVisible = false;
 
-                        if (this.cbbResultList.Items.Count == _selectedSubsidiaryList.Length)
-                        {
-                            MethodInvoker action3 = delegate
+                            if (this.cbbResultList.Items.Count == 1)
                             {
-                                this.ccb.txtDropDownInput.Enabled = true;
-                            };
-                            this.ccb.txtDropDownInput.Invoke(action3);
+                                this.cbbResultList.SelectedIndex = 0;
+                                isVisible = true;
+                            }
 
-
-                            MethodInvoker action4 = delegate
+                            if (this.cbbResultList.Items.Count == _selectedSubsidiaryList.Length)
                             {
-                                this.ccb.btnDropDown.Enabled = true;
-                            };
-                            this.ccb.btnDropDown.Invoke(action4);
-                        }
+                                MethodInvoker action3 = delegate
+                                {
+                                    this.ccb.txtDropDownInput.Enabled = true;
+                                };
+                                this.ccb.txtDropDownInput.Invoke(action3);
 
-                        MethodInvoker action2 = delegate
-                        {
-                            this.panel_Grid.Visible = true;
-                            this.panel_Grid.Controls.Add(grid);
-                            grid.Visible = isVisible;
-                            this.enableBtnResult();
+
+                                MethodInvoker action4 = delegate
+                                {
+                                    this.ccb.btnDropDown.Enabled = true;
+                                };
+                                this.ccb.btnDropDown.Invoke(action4);
+                            }
+
+                            MethodInvoker action2 = delegate
+                            {
+                                this.panel_Grid.Visible = true;
+                                this.panel_Grid.Controls.Add(grid);
+                                grid.Visible = isVisible;
+                                this.enableBtnResult();
+                            };
+
+                            this.panel_Grid.Invoke(action2);
                         };
 
+                        this.cbbResultList.Invoke(action);
 
-                        this.panel_Grid.Invoke(action2);
-                    };
-
-                    this.cbbResultList.Invoke(action);
-
-                    this.bindData(urlEntryList, v.subsidiaryName);
+                        this.bindData(urlEntryList, subsidiaryName);
+                    }
                 }
             }
         }
@@ -460,26 +394,10 @@ namespace SitemapFactory
         private void updateLogPanel(String msg)
         {
             MethodInvoker action = delegate
-            { richTextBox1.Text += (msg + Environment.NewLine); };
+            { richTextBox1.AppendText(msg + Environment.NewLine); };
             richTextBox1.BeginInvoke(action);
-
-            action = delegate
-            {
-                richTextBox1.SelectionStart = richTextBox1.Text.Length;
-                richTextBox1.ScrollToCaret();
-            };
-            richTextBox1.BeginInvoke(action);
-
-            //richTextBox1.Text += (msg + Environment.NewLine);
-
-            //richTextBox1.SelectionStart = richTextBox1.Text.Length;
-            //richTextBox1.ScrollToCaret();
         }
 
-        private void UpdateRichTextBox(String text)
-        {
-            this.richTextBox1.AppendText(this.richTextBox1.Text + text + Environment.NewLine);
-        }
 
         private void btnLoadStatus_Click(object sender, EventArgs e)
         {
@@ -674,7 +592,6 @@ namespace SitemapFactory
         }
     }
 
-
     public static class HelperClass
     {
         public static void adjustGridWidth(DataGridView grid, Panel panel)
@@ -692,22 +609,31 @@ namespace SitemapFactory
     }
 
     public delegate void LoadFileDelegate(DataGridView dataGridView);
-    public delegate void DelRecursionFolder(String path);
+    public delegate void DelRecursion();
     public delegate void NotifyParentDelegate(String msg);
 
     public class RecursionFolder
     {
         public List<URLEntry> files = null;
         public String subsidiaryName = null;
+        public Dictionary<String, List<URLEntry>> result = null;
+        private String _cspauthoringRoot = null;
 
         public event NotifyParentDelegate NotifyParentEvent;
 
 
-        public RecursionFolder()
+        public RecursionFolder(String[] subsidiaryList, String cspauthoringRoot)
         {
-
+            _cspauthoringRoot = cspauthoringRoot;
             files = new List<URLEntry>();
 
+            result = new Dictionary<string, List<URLEntry>>();
+            foreach (var subName in subsidiaryList)
+            {
+                if (!result.ContainsKey(subName)) {
+                    result.Add(subName, new List<URLEntry>());
+                }
+            }
         }
 
 
@@ -748,13 +674,29 @@ namespace SitemapFactory
             return false;
         }
 
-        public void RecursionFolders(String[] path)
-        {
-            foreach (var item in path)
-                this.Recursion(item);
+
+        public void Recursion() {
+            foreach (var item in result)
+            {
+                var subsidiaryName = item.Key;
+                var path = string.Empty;
+
+                if (subsidiaryName == "en-gb")
+                {
+                    path = string.Format("{0}{1}\\enterprise\\sitepages", _cspauthoringRoot, subsidiaryName);
+                }
+                else
+                {
+
+                    path = string.Format("{0}enterprise\\{1}\\sitepages", _cspauthoringRoot, subsidiaryName);
+                }
+
+                this.Recursion(path, subsidiaryName);
+            }
         }
 
-        public void Recursion(String path)
+
+        public void Recursion(String path, String subsidiaryName)
         {
             System.IO.DirectoryInfo di = new System.IO.DirectoryInfo(path);
 
@@ -771,7 +713,7 @@ namespace SitemapFactory
 
                         if (!isSkip(item.FullName))
                         {
-                            files.Add(new URLEntry() { File = item, FileStatus = FileStatus.None, ID = files.Count + 1 });
+                            this.result[subsidiaryName].Add(new URLEntry() { File = item, FileStatus = FileStatus.None, ID = this.result[subsidiaryName].Count + 1 });
 
                             NotifyParentEvent(item.FullName);
                         }
@@ -784,10 +726,11 @@ namespace SitemapFactory
 
                 foreach (var item in di.GetDirectories())
                 {
-                    Recursion(item.FullName);
+                    Recursion(item.FullName, subsidiaryName);
                 }
             }
         }
+
 
 
     }
