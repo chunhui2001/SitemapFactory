@@ -16,7 +16,6 @@ namespace SitemapFactory
     {
         private SubsidiaryEntry[] _subsidiaryList;
         private String[] _selectedSubsidiaryList;
-        private String _subsidiaryName = "";
 
         public String _cspauthoringRoot = @"X:\";
 
@@ -52,41 +51,24 @@ namespace SitemapFactory
             this.btnLog.BackColor = System.Drawing.Color.Gray;
             this.btnLog.ForeColor = System.Drawing.Color.White;
 
-            //this.btnResult.Margin = 0;
             this.btnLog.Padding = new Padding(0, 0, 0, 0);
             this.btnLog.Margin = new System.Windows.Forms.Padding(0, 0, 0, 0);
 
-            //this.btnLog.BackColor = System.Drawing.Color.Blue;
-            //this.btnLog.FlatStyle = FlatStyle.Flat;
-            //this.btnResult.FlatStyle = FlatStyle.Flat;
-            //this.btnLog.FlatAppearance.BorderColor = Color.Red;
-            //this.btnLog.FlatAppearance.BorderSize = 0;
-            //this.btnResult.FlatAppearance.BorderSize = 0;
             this.cbbResultList.Visible = false;
             this.cbbResultList.FlatStyle = FlatStyle.Flat;
             this.cbbResultList.BackColor = System.Drawing.Color.Green;
             this.cbbResultList.ForeColor = System.Drawing.Color.White;
-            //this.cbbResultList.Font.Bold = true;
-            
 
-
-            ccb = new CheckedCombobox(this.panel2, this);
+            ccb = new CheckedCombobox(this.panel2, this, this.getSubsidiaryList(this.Outputdir), this._cspauthoringRoot);
             this.panel2.Visible = false;
             this.richTextBox1.Visible = true;
             this.btnResult.Visible = false;
             this.richTextBox1.BorderStyle = BorderStyle.FixedSingle;
 
-
             this.MaximizeBox = false;
             this.btnLoadStatus.Visible = false;
 
-            // var gridName = "gridName1";
-            // var grid = this.getDataGridView(gridName);
-
-            // this.panel_Grid.Controls.Add( grid);
-
-
-            //  doInit();
+            //doInit();
         }
 
         void Form1_Click(object sender, EventArgs e)
@@ -173,10 +155,104 @@ namespace SitemapFactory
         private void doInit()
         {
             // http://www.microsoft.com/enterprise/en-us/default.aspx
-
             _selectedSubsidiaryList = this.ccb.txtDropDownInput.Text.TrimEnd(',').Split(',');
 
-            this._subsidiaryList = this.ccb.subsidiaryEntry;
+            this._subsidiaryList = this.ccb._subsidiaryEntry;
+
+            this.ccb._cspauthoringRoot = this._cspauthoringRoot;
+            this.ccb._subsidiaryEntry = this.getSubsidiaryList(this.Outputdir);
+        }
+
+        private SubsidiaryEntry[] getSubsidiaryList(String outputDir)
+        {
+            return new SubsidiaryEntry[] { 
+new SubsidiaryEntry(){ Name = "ar-eg"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir}, 
+new SubsidiaryEntry(){ Name = "ar-gulf"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "ar-iq"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "ar-ly"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "ar-middleeast"		   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "cs-cz"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "da-dk"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "de-at"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "DE-CH"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "de-de"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "el-gr"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "EN-AU"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "en-bd"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "in-in"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "en-br"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "en-ca"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "en-cb"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "en-cee"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "en-eg"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "en-esa"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "en-gb"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "en-gh"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "en-gm"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "en-gulf"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "en-hk"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "en-ie"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "en-in"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "En-ir"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "en-jo"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "en-lb"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "en-lk"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "en-lr"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "EN-MY"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "en-ng"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "EN-NZ"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "EN-PH"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "en-pk"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "en-sa"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "EN-SG"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "en-sl"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "en-xl"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "en-za"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "es-ar"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "es-cl"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "es-co"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "es-es"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "es-mx"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "es-xl"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "fi-fi"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "fr-africa"			   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "fr-be"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "fr-ca"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "fr-ch"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "fr-dz"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "fr-fr"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "fr-ma"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "fr-tn"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "fr-wca"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "he-il"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "hu-hu"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "ID-ID"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "it-it"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "ja-jp"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "KO-KR"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "nb-no"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "nl-be"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "nl-nl"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "pl-pl"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "pt-ao"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "pt-br"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "pt-cv"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "pt-mz"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "pt-pt"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "ro-ro"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "ru-ru"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "ru-uk"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "ru-xl"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "sk-sk"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "sv-se"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "TH-TH"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "tr-tr"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "uk-ua"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "VI-VN"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "zh-cn"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+new SubsidiaryEntry(){ Name = "zh-tw" 				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
+
+        }.OrderBy(e => e.Name).ToArray();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -194,7 +270,6 @@ namespace SitemapFactory
                 return;
             }
 
-            this.ccb._cspauthoringRoot = this._cspauthoringRoot;
         }
 
 
@@ -236,8 +311,8 @@ namespace SitemapFactory
             this.cbbResultList.SelectedText = string.Empty;
             this.cbbResultList.Visible = false;
 
-            this.ccb.txtDropDownInput.Enabled = false;
-            this.ccb.btnDropDown.Enabled = false;
+            // this.ccb.txtDropDownInput.Enabled = false;
+            // this.ccb.btnDropDown.Enabled = false;
             this.btnLoadStatus.Visible = false;
             this.richTextBox1.Visible = true;
             this.panel_Grid.Visible = false;
@@ -258,14 +333,14 @@ namespace SitemapFactory
             }
 
 
-            
+
             this.loadSitePages(this._selectedSubsidiaryList);
         }
 
         private void loadSitePages(String[] selectedSubsidiaryList)
         {
             RecursionFolder r = new RecursionFolder(selectedSubsidiaryList, this._cspauthoringRoot);
-            r.NotifyParentEvent += updateLogPanel;
+            r.PrintMessage += updateLogPanel;
 
             DelRecursion drf = new DelRecursion(r.Recursion);
             drf.BeginInvoke(new AsyncCallback(loadSitePagesComplete), r);
@@ -273,7 +348,9 @@ namespace SitemapFactory
 
         private void loadSitePagesComplete(IAsyncResult itfAR)
         {
-            MethodInvoker action = delegate
+            MethodInvoker action = null;
+
+            action = delegate
             { this.btnGo.Enabled = true; };
             this.btnGo.BeginInvoke(action);
 
@@ -312,21 +389,21 @@ namespace SitemapFactory
                                 isVisible = true;
                             }
 
-                            if (this.cbbResultList.Items.Count == _selectedSubsidiaryList.Length)
-                            {
-                                MethodInvoker action3 = delegate
-                                {
-                                    this.ccb.txtDropDownInput.Enabled = true;
-                                };
-                                this.ccb.txtDropDownInput.Invoke(action3);
+                            //if (this.cbbResultList.Items.Count == _selectedSubsidiaryList.Length)
+                            //{
+                            //    MethodInvoker action3 = delegate
+                            //    {
+                            //        this.ccb.txtDropDownInput.Enabled = true;
+                            //    };
+                            //    this.ccb.txtDropDownInput.Invoke(action3);
 
 
-                                MethodInvoker action4 = delegate
-                                {
-                                    this.ccb.btnDropDown.Enabled = true;
-                                };
-                                this.ccb.btnDropDown.Invoke(action4);
-                            }
+                            //    MethodInvoker action4 = delegate
+                            //    {
+                            //        this.ccb.btnDropDown.Enabled = true;
+                            //    };
+                            //    this.ccb.btnDropDown.Invoke(action4);
+                            //}
 
                             MethodInvoker action2 = delegate
                             {
@@ -391,32 +468,79 @@ namespace SitemapFactory
             }
         }
 
-        private void updateLogPanel(String msg)
+        private void updateLogPanel(String msg, System.Drawing.Color color, bool isNewLine)
         {
             MethodInvoker action = delegate
-            { richTextBox1.AppendText(msg + Environment.NewLine); };
+            {
+                this.richTextBox1.AppendText(msg + (isNewLine ? Environment.NewLine : ""), color);
+                //this.richTextBox1.Focus();
+            };
             richTextBox1.BeginInvoke(action);
+
+
+            //action = delegate
+            //{
+            //    richTextBox1.SelectionStart = richTextBox1.Text.Length+2;
+            //    richTextBox1.ScrollToCaret();
+            //};
+            //richTextBox1.BeginInvoke(action);
+
+            
         }
 
 
         private void btnLoadStatus_Click(object sender, EventArgs e)
         {
-            this.btnGo.Enabled = false;
-
-            MethodInvoker action = delegate
-            { this.btnLoadStatus.Enabled = false; };
-
-            this.btnLoadStatus.Invoke(action);
-
+            List<DataGridView> gridList = new List<DataGridView>();
             foreach (var item in this.panel_Grid.Controls)
             {
                 var grid = item as DataGridView;
                 if (grid != null)
                 {
-                    LoadFileStatus lfs = new LoadFileStatus();
-                    LoadFileDelegate lfd = new LoadFileDelegate(lfs.LoadFile);
-                    lfd.BeginInvoke(grid, new AsyncCallback(loadStatusComplete), lfs);
+                    gridList.Add(grid);
                 }
+            }
+
+            if (gridList.Count > 0)
+            {
+
+                this.btnGo.Enabled = false;
+
+                MethodInvoker action = delegate
+                { this.btnLoadStatus.Enabled = false; };
+
+                this.btnLoadStatus.Invoke(action);
+
+
+                LoadFileStatus lfs = new LoadFileStatus(gridList);
+                lfs.PrintMessage += updateLogPanel;
+                lfs.TurnOnSubName += lfs_TurnOnSubName;
+
+                LoadFileDelegate lfd = new LoadFileDelegate(lfs.LoadFile);
+                lfd.BeginInvoke(new AsyncCallback(loadStatusComplete), lfs);
+            }
+        }
+
+        void lfs_TurnOnSubName(string subsidiaryName)
+        {
+            var index = -1;
+            for (int i = 0; i < this.cbbResultList.Items.Count; i++)
+            {
+                if (this.cbbResultList.Items[i].ToString() == subsidiaryName)
+                {
+                    index = i;
+                    break;
+                }
+            }
+
+            if (index != -1)
+            {
+                MethodInvoker action = delegate
+                {
+                    this.cbbResultList.SelectedIndex = index;
+                };
+
+                this.cbbResultList.Invoke(action);
             }
         }
 
@@ -435,27 +559,56 @@ namespace SitemapFactory
             { this.btnGo.Enabled = true; };
             this.btnGo.Invoke(action);
 
-            if (v.SiteMapXmlDocument != null)
+            if (v.Result != null)
             {
-                Invoke((Action)(() =>
+                // Save the result to outputdir
+                foreach (var item in v.Result)
                 {
-                    SaveFileDialog saveFileDialog = new SaveFileDialog();
-                    saveFileDialog.Filter = "XML files (*.xml)|*.xml";
-                    saveFileDialog.FilterIndex = 0;
-                    saveFileDialog.RestoreDirectory = true;
-                    saveFileDialog.CreatePrompt = true;
-                    saveFileDialog.FileName = "sitemap" + ((String.IsNullOrEmpty(this._subsidiaryName) ? "" : "_" + this._subsidiaryName) + ".xml")
-                                                            .Replace("\\enterprise", "").Replace("enterprise\\", "");
-                    saveFileDialog.Title = "Save path of the Sitemap to be exported";
+                    var fileFullName = HelperClass.getOutputSitemapFileName(item.Key, this.Outputdir);
+
+                    if (System.IO.File.Exists(fileFullName))
+                    {
+                        System.IO.File.Delete(fileFullName);
+                    }
+
+                    try
+                    {
+                        if (!System.IO.Directory.Exists(System.IO.Path.GetDirectoryName(fileFullName)))
+                        {
+                            // create directory
+                            System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(fileFullName));
+                        }
 
 
-                    if (saveFileDialog.ShowDialog() == DialogResult.OK)
-                        v.SiteMapXmlDocument.Save(saveFileDialog.FileName);
-                }));
+                        item.Value.Save(fileFullName);
 
+                        this.updateLogPanel("Saving " + fileFullName + " Successful..", System.Drawing.Color.Green, true);
+
+                        // Update checkbox text
+                        if (this.ccb.panel.Visible)
+                        {
+                            var now = DateTime.Now;
+                            foreach (var checkbox in this.ccb.panel.Controls)
+                            {
+                                var cbx = checkbox as CheckBox;
+                                if (cbx != null && cbx.Name == item.Key)
+                                {
+                                    cbx.Text = cbx.Name + "-" + DateTime.Now.ToString("yy.MM.dd");
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception e)
+                    {
+
+                        this.updateLogPanel("Saving " + fileFullName + " Failed: " + e.Message, System.Drawing.Color.Red, true);
+                    }
+                }
             }
         }
 
+        public String Outputdir = "D:\\outputdir";
         private int _formWidth = 0;
         private int _formHeight = 0;
         private int _ccbPanelHeight = 0;
@@ -548,6 +701,7 @@ namespace SitemapFactory
         private void btnLog_Click(object sender, EventArgs e)
         {
             this.enableBtnLog();
+            this.richTextBox1.Focus();
 
             this.richTextBox1.Visible = true;
             this.panel_Grid.Visible = false;
@@ -592,6 +746,21 @@ namespace SitemapFactory
         }
     }
 
+
+    public static class RichTextBoxExtensions
+    {
+        public static void AppendText(this RichTextBox box, string text, Color color)
+        {
+            box.SelectionStart = box.TextLength;
+            box.SelectionLength = 0;
+
+            box.SelectionColor = color;
+            box.AppendText(text);
+            box.SelectionColor = box.ForeColor;
+        }
+    }
+
+
     public static class HelperClass
     {
         public static void adjustGridWidth(DataGridView grid, Panel panel)
@@ -606,11 +775,20 @@ namespace SitemapFactory
                                         - grid.Columns["Priority"].Width
                                         - grid.Columns["Lastmod"].Width - 18;
         }
+
+        public static String getOutputSitemapFileName(String subsidiaryName, String outputDir)
+        {
+
+            var fileFullName = outputDir + "\\sitemap" + ((String.IsNullOrEmpty(subsidiaryName) ? "" : "_" + subsidiaryName) + ".xml")
+                                                    .Replace("\\enterprise", "").Replace("enterprise\\", "");
+            return fileFullName;
+        }
     }
 
-    public delegate void LoadFileDelegate(DataGridView dataGridView);
+    public delegate void LoadFileDelegate();
     public delegate void DelRecursion();
-    public delegate void NotifyParentDelegate(String msg);
+    public delegate void PrintMessage(String msg, System.Drawing.Color color, bool isNewLine);
+    public delegate void TurnOnSubName(String subsidiaryName);
 
     public class RecursionFolder
     {
@@ -619,7 +797,7 @@ namespace SitemapFactory
         public Dictionary<String, List<URLEntry>> result = null;
         private String _cspauthoringRoot = null;
 
-        public event NotifyParentDelegate NotifyParentEvent;
+        public event PrintMessage PrintMessage;
 
 
         public RecursionFolder(String[] subsidiaryList, String cspauthoringRoot)
@@ -630,7 +808,8 @@ namespace SitemapFactory
             result = new Dictionary<string, List<URLEntry>>();
             foreach (var subName in subsidiaryList)
             {
-                if (!result.ContainsKey(subName)) {
+                if (!result.ContainsKey(subName))
+                {
                     result.Add(subName, new List<URLEntry>());
                 }
             }
@@ -660,7 +839,7 @@ namespace SitemapFactory
                                 ".jpg",
                                 "v1.xml",
                                 "_back_",
-                                "-old.xml"};
+                                "-old.xml", " - old.xml", "thumbs.db"};
 
 
             foreach (var item in skips)
@@ -675,7 +854,8 @@ namespace SitemapFactory
         }
 
 
-        public void Recursion() {
+        public void Recursion()
+        {
             foreach (var item in result)
             {
                 var subsidiaryName = item.Key;
@@ -708,20 +888,14 @@ namespace SitemapFactory
                 {
                     var item = filesList[i];
 
-                    if (NotifyParentEvent != null)
-                    {
+                    var skip = "";
+                    if (!isSkip(item.FullName))
+                        this.result[subsidiaryName].Add(new URLEntry() { File = item, FileStatus = FileStatus.None, ID = this.result[subsidiaryName].Count + 1 });
+                    else
+                        skip = " [SKIP]";
 
-                        if (!isSkip(item.FullName))
-                        {
-                            this.result[subsidiaryName].Add(new URLEntry() { File = item, FileStatus = FileStatus.None, ID = this.result[subsidiaryName].Count + 1 });
-
-                            NotifyParentEvent(item.FullName);
-                        }
-                        else
-                        {
-                            NotifyParentEvent(item.FullName + " [SKIP]");
-                        }
-                    }
+                    if (PrintMessage != null)
+                        PrintMessage(item.FullName + skip, System.Drawing.Color.Black, true);
                 }
 
                 foreach (var item in di.GetDirectories())
@@ -737,139 +911,253 @@ namespace SitemapFactory
 
     public class LoadFileStatus
     {
-        private DataGridView _dataGridView;
-        private XDocument _siteMapDoc;
+        private List<DataGridView> _gridList;
+        private Dictionary<string, XDocument> _result;
 
-        public XDocument SiteMapXmlDocument
+        public event PrintMessage PrintMessage;
+        public event TurnOnSubName TurnOnSubName;
+
+        public Dictionary<string, XDocument> Result
         {
             get
             {
-                return this._siteMapDoc;
+                return this._result;
             }
         }
 
-        public LoadFileStatus()
+        public LoadFileStatus(List<DataGridView> gridList)
         {
             // xmlns=""http://www.sitemaps.org/schemas/sitemap/0.9""
-            _siteMapDoc = XDocument.Parse(@"<?xml version=""1.0"" encoding=""UTF-8""?>
+
+            this._gridList = gridList;
+
+            _result = new Dictionary<string, XDocument>();
+            foreach (var item in this._gridList)
+            {
+                this.Result.Add(item.Name, XDocument.Parse(@"<?xml version=""1.0"" encoding=""UTF-8""?>
 <urlset>
    
-</urlset>");
+</urlset>"));
+            }
         }
 
-        public void LoadFile(DataGridView dataGridView)
+        byte[] pageContent = null;
+        bool downloadCompleted = false;
+        HttpStatusCode downloadStatus = HttpStatusCode.NotFound;
+
+        public void LoadFile()
         {
-            this._dataGridView = dataGridView;
-
-            if (this._dataGridView.Rows.Count == 0) return;
-
-            foreach (var item in this._dataGridView.Rows)
+            foreach (var g in this._gridList)
             {
-                DataGridViewRow row = item as DataGridViewRow;
+                var dataGridView = g;
 
-                row.Cells["FileStatus"].Value = FileStatus.Loading;
-                row.Cells["FileStatus"].Style.ForeColor = Color.Green;
+                if (dataGridView.Rows.Count == 0) return;
 
-                // get page by url 
-                String currUrl = row.Cells["Loc"].Value.ToString();
+                if (TurnOnSubName != null)
+                    TurnOnSubName(dataGridView.Name);
 
-                WebClient wc = new WebClient();
+                if (this.PrintMessage != null)
+                    this.PrintMessage("[" + DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss:fff") + "] " + g.Name + " Load status is being started...."
+                        , System.Drawing.Color.Fuchsia, true);
 
-                //wc.DownloadDataCompleted += wc_DownloadDataCompleted;
-                //wc.DownloadDataAsync(new Uri(currUrl), row.Cells["FileStatus"]);
-
-                try
+                #region loading status
+                foreach (var item in dataGridView.Rows)
                 {
-                    /*
-                    HttpWebRequest request = WebRequest.Create(currUrl) as HttpWebRequest;
-                    request.Method = "HEAD";
-                    request.Timeout = 120000;
+                    #region process the grid
+                    DataGridViewRow row = item as DataGridViewRow;
 
-                    HttpWebResponse response = request.GetResponse() as HttpWebResponse;
-                    HttpStatusCode status = response.StatusCode;
-                    */
+                    row.Cells["FileStatus"].Value = FileStatus.Loading;
+                    row.Cells["FileStatus"].Style.ForeColor = Color.Green;
 
+                    // get page by url 
+                    String currUrl = row.Cells["Loc"].Value.ToString();
 
-                    byte[] pageContent = wc.DownloadData(currUrl);
+                    WebClient wc = new WebClient();
 
+                    wc.DownloadDataCompleted += wc_DownloadDataCompleted;
 
-                    if (pageContent != null && pageContent.Length > 0) //status == HttpStatusCode.OK)
+                    try
                     {
-                        row.Cells["FileStatus"].Value = FileStatus.Approved;
-                        row.Cells["FileStatus"].Style.ForeColor = Color.Blue;
+                        /*
+                        HttpWebRequest request = WebRequest.Create(currUrl) as HttpWebRequest;
+                        request.Method = "HEAD";
+                        request.Timeout = 120000;
 
-                        XElement ele = XElement.Parse(string.Format(@"<url>
+                        HttpWebResponse response = request.GetResponse() as HttpWebResponse;
+                        HttpStatusCode status = response.StatusCode;
+                        */
+                        pageContent = null;
+                        downloadCompleted = false;
+                        downloadStatus = HttpStatusCode.NotFound;
+
+                        try
+                        {
+                            wc.DownloadDataAsync(new Uri(currUrl), row.Cells["FileStatus"]);
+                        }
+                        catch
+                        {
+                            downloadStatus = HttpStatusCode.NotFound;
+                            downloadCompleted = true;
+                            row.Cells["FileStatus"].Value = FileStatus._404.ToString();
+                            row.Cells["FileStatus"].Style.ForeColor = Color.Red;
+
+                            if (this.PrintMessage != null)
+                                this.PrintMessage("[" + DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss:fff") + "] " + currUrl + " 404 .."
+                                    , System.Drawing.Color.Red, true);
+                        }
+
+                        //pageContent = wc.DownloadData(currUrl);
+
+
+                        Thread.Sleep(1200);
+
+                        #region show download process
+                        bool tag = false;
+                        while (!downloadCompleted)
+                        {
+                            Thread.Sleep(50);
+                            // print process bar
+                            if (this.PrintMessage != null)
+                                this.PrintMessage(">", System.Drawing.Color.Turquoise, false);
+
+                            tag = true;
+                        }
+                        #endregion show download process
+
+
+                        if (tag && this.PrintMessage != null)
+                            this.PrintMessage("", System.Drawing.Color.White, true);
+
+
+                        if (downloadStatus == HttpStatusCode.OK) //status == HttpStatusCode.OK)
+                        {
+                            #region approve
+                            row.Cells["FileStatus"].Value = FileStatus.Approved;
+                            row.Cells["FileStatus"].Style.ForeColor = Color.Blue;
+
+                            XElement ele = XElement.Parse(string.Format(@"<url>
       <loc>{0}</loc>
       <lastmod>{1}</lastmod>
       <changefreq>{2}</changefreq>
       <priority>{3}</priority>
    </url>", currUrl, row.Cells["Lastmod"].Value.ToString(), row.Cells["Changefreq"].Value.ToString(), row.Cells["Priority"].Value.ToString()));
 
+                            try
+                            {
+                                // Add to document
+                                this._result[g.Name].Root.AddFirst(ele);
 
-                        this._siteMapDoc.Root.AddFirst(ele);
-                    }
-                }
-                catch (WebException we)
-                {
-                    if (we.Message.Contains("404"))
-                    {
-                        row.Cells["FileStatus"].Value = FileStatus._404.ToString();
-                        row.Cells["FileStatus"].Style.ForeColor = Color.Red;
-                    }
-                    else if (we.Message.ToLower().Contains("timed out"))
-                    {
-                        row.Cells["FileStatus"].Value = FileStatus.Timeout.ToString();
-                        row.Cells["FileStatus"].Style.ForeColor = Color.Aqua;
-                    }
-                    else
-                    {
 
+                                if (this.PrintMessage != null)
+                                    this.PrintMessage("[" + DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss:fff") + "] " + currUrl + " " + " is on live.."
+                                        , System.Drawing.Color.Salmon, true);
+                            }
+                            catch (Exception e)
+                            {
+                                if (this.PrintMessage != null)
+                                    this.PrintMessage(e.Message, System.Drawing.Color.Red, true);
+                            }
+                            #endregion approve
+                        }
+                        else
+                        {
+                            #region not approve
+                            row.Cells["FileStatus"].Value = FileStatus._404.ToString();
+                            row.Cells["FileStatus"].Style.ForeColor = Color.Red;
+
+
+                            if (this.PrintMessage != null)
+                                this.PrintMessage("[" + DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss:fff") + "] " + currUrl + " 404"
+                                    , System.Drawing.Color.Red, true);
+                            #endregion not approve
+                        }
+                    }
+                    catch (WebException we)
+                    {
+                        downloadStatus = HttpStatusCode.NotFound;
+                        downloadCompleted = true;
+                        #region
+                        if (we.Message.Contains("404"))
+                        {
+                            row.Cells["FileStatus"].Value = FileStatus._404.ToString();
+                            row.Cells["FileStatus"].Style.ForeColor = Color.Red;
+                        }
+                        else if (we.Message.ToLower().Contains("timed out"))
+                        {
+                            row.Cells["FileStatus"].Value = FileStatus.Timeout.ToString();
+                            row.Cells["FileStatus"].Style.ForeColor = Color.Aqua;
+                        }
+                        else
+                        {
+
+                            row.Cells["FileStatus"].Value = FileStatus.Error.ToString();
+                            row.Cells["FileStatus"].Style.ForeColor = Color.Red;
+                        }
+
+                        if (this.PrintMessage != null)
+                            this.PrintMessage("[" + DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss:fff") + "] " + currUrl + " " + we.Message
+                                , System.Drawing.Color.Red, true);
+                        #endregion
+                    }
+                    catch (Exception ee)
+                    {
+                        downloadStatus = HttpStatusCode.NotFound;
+                        downloadCompleted = true;
+                        #region
                         row.Cells["FileStatus"].Value = FileStatus.Error.ToString();
                         row.Cells["FileStatus"].Style.ForeColor = Color.Red;
+
+                        if (this.PrintMessage != null)
+                            this.PrintMessage("[" + DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss:fff") + "] " + currUrl + " " + ee.Message
+                                , System.Drawing.Color.Red, true);
+                        #endregion
                     }
+
+
+
+                    MethodInvoker action = delegate
+                    {
+                        dataGridView.FirstDisplayedScrollingRowIndex = row.Index;
+                    };
+
+                    dataGridView.BeginInvoke(action);
+
+                    #endregion process the grid
                 }
-                catch (Exception ee)
-                {
-                    row.Cells["FileStatus"].Value = FileStatus.Error.ToString();
-                    row.Cells["FileStatus"].Style.ForeColor = Color.Red;
-                }
+                #endregion loading status
 
-
-
-                MethodInvoker action = delegate
-                {
-                    this._dataGridView.FirstDisplayedScrollingRowIndex = row.Index;
-                };
-
-                this._dataGridView.BeginInvoke(action);
-
-
+                if (this.PrintMessage != null)
+                    this.PrintMessage("[" + DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss:fff") + "] " + g.Name + " Loading status completed...."
+                        , System.Drawing.Color.Fuchsia, true);
             }
         }
 
         void wc_DownloadDataCompleted(object sender, DownloadDataCompletedEventArgs e)
         {
             var cell = e.UserState as DataGridViewTextBoxCell;
-
+            
+            //downloadStatus = HttpStatusCode.OK;
             try
             {
                 if (e.Result != null && e.Result.Length > 0)
                 {
-                    if (cell != null)
-                    {
-                        cell.Value = FileStatus.Approved;
-                        cell.Style.ForeColor = Color.Blue;
-                    }
+                    downloadStatus = HttpStatusCode.OK;
+                    pageContent = e.Result;
                 }
-            }
-            catch (Exception ee)
-            {
-                if (cell != null)
+                else
                 {
-                    cell.Value = FileStatus.Error.ToString();
-                    cell.Style.ForeColor = Color.Red;
+                    downloadStatus = HttpStatusCode.NotFound;
+                    pageContent = null;
                 }
             }
+            catch (Exception)
+            {
+                downloadStatus = HttpStatusCode.NotFound;
+                
+            }
+            
+
+            downloadCompleted = true;
         }
     }
 
@@ -920,8 +1208,39 @@ namespace SitemapFactory
 
     public class SubsidiaryEntry
     {
+        private String _outputDir;
+        private DateTime _sitemapLastModifyDate;
         public String Name { get; set; }
-        public DateTime SitemapLastModifyDate { get; set; }
+        public String OutputDIr
+        {
+            get
+            {
+                return this._outputDir;
+            }
+            set
+            {
+                this._outputDir = value;
+            }
+        }
+        public DateTime SitemapLastModifyDate
+        {
+            get
+            {
+                var fileName = HelperClass.getOutputSitemapFileName(this.Name, _outputDir);
+
+                if (System.IO.File.Exists(fileName))
+                {
+                    return new System.IO.FileInfo(fileName).LastWriteTime;
+                }
+
+                return this._sitemapLastModifyDate;
+            }
+
+            set
+            {
+                this._sitemapLastModifyDate = value;
+            }
+        }
     }
     public enum FileStatus
     {

@@ -42,7 +42,7 @@
             // 
             this.btnGo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.btnGo.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnGo.Location = new System.Drawing.Point(935, 12);
+            this.btnGo.Location = new System.Drawing.Point(935, 13);
             this.btnGo.Name = "btnGo";
             this.btnGo.Size = new System.Drawing.Size(75, 24);
             this.btnGo.TabIndex = 2;
@@ -54,7 +54,7 @@
             // 
             this.richTextBox1.Location = new System.Drawing.Point(15, 76);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(909, 422);
+            this.richTextBox1.Size = new System.Drawing.Size(909, 425);
             this.richTextBox1.TabIndex = 3;
             this.richTextBox1.Text = "";
             this.richTextBox1.Visible = false;
@@ -83,7 +83,7 @@
             this.panel_Grid.BackColor = System.Drawing.SystemColors.Window;
             this.panel_Grid.Location = new System.Drawing.Point(15, 76);
             this.panel_Grid.Name = "panel_Grid";
-            this.panel_Grid.Size = new System.Drawing.Size(909, 422);
+            this.panel_Grid.Size = new System.Drawing.Size(909, 425);
             this.panel_Grid.TabIndex = 9;
             this.panel_Grid.Visible = false;
             // 
