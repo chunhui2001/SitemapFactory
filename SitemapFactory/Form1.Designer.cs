@@ -40,6 +40,7 @@
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.CSPAUTHORING_DRIVE_NAME = new System.Windows.Forms.ToolStripTextBox();
             this.OUTPUT_DIR = new System.Windows.Forms.ToolStripTextBox();
+            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -57,9 +58,9 @@
             // 
             // richTextBox1
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(15, 97);
+            this.richTextBox1.Location = new System.Drawing.Point(5, 97);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(909, 404);
+            this.richTextBox1.Size = new System.Drawing.Size(924, 412);
             this.richTextBox1.TabIndex = 3;
             this.richTextBox1.Text = "";
             this.richTextBox1.Visible = false;
@@ -67,7 +68,7 @@
             // btnLoadStatus
             // 
             this.btnLoadStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnLoadStatus.Location = new System.Drawing.Point(935, 106);
+            this.btnLoadStatus.Location = new System.Drawing.Point(935, 97);
             this.btnLoadStatus.Name = "btnLoadStatus";
             this.btnLoadStatus.Size = new System.Drawing.Size(75, 47);
             this.btnLoadStatus.TabIndex = 5;
@@ -78,23 +79,23 @@
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.panel2.Location = new System.Drawing.Point(15, 38);
+            this.panel2.Location = new System.Drawing.Point(5, 38);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(909, 463);
+            this.panel2.Size = new System.Drawing.Size(924, 471);
             this.panel2.TabIndex = 8;
             // 
             // panel_Grid
             // 
             this.panel_Grid.BackColor = System.Drawing.SystemColors.Window;
-            this.panel_Grid.Location = new System.Drawing.Point(15, 97);
+            this.panel_Grid.Location = new System.Drawing.Point(5, 97);
             this.panel_Grid.Name = "panel_Grid";
-            this.panel_Grid.Size = new System.Drawing.Size(909, 404);
+            this.panel_Grid.Size = new System.Drawing.Size(924, 412);
             this.panel_Grid.TabIndex = 9;
             this.panel_Grid.Visible = false;
             // 
             // btnLog
             // 
-            this.btnLog.Location = new System.Drawing.Point(14, 72);
+            this.btnLog.Location = new System.Drawing.Point(4, 70);
             this.btnLog.Name = "btnLog";
             this.btnLog.Size = new System.Drawing.Size(75, 23);
             this.btnLog.TabIndex = 10;
@@ -104,7 +105,7 @@
             // 
             // btnResult
             // 
-            this.btnResult.Location = new System.Drawing.Point(91, 72);
+            this.btnResult.Location = new System.Drawing.Point(84, 70);
             this.btnResult.Name = "btnResult";
             this.btnResult.Size = new System.Drawing.Size(75, 23);
             this.btnResult.TabIndex = 11;
@@ -116,7 +117,7 @@
             // 
             this.cbbResultList.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbbResultList.FormattingEnabled = true;
-            this.cbbResultList.Location = new System.Drawing.Point(91, 73);
+            this.cbbResultList.Location = new System.Drawing.Point(84, 71);
             this.cbbResultList.Name = "cbbResultList";
             this.cbbResultList.Size = new System.Drawing.Size(75, 21);
             this.cbbResultList.TabIndex = 0;
@@ -134,9 +135,11 @@
             // 
             // settingsToolStripMenuItem
             // 
+            this.settingsToolStripMenuItem.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.settingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.CSPAUTHORING_DRIVE_NAME,
-            this.OUTPUT_DIR});
+            this.OUTPUT_DIR,
+            this.saveToolStripMenuItem});
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
             this.settingsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
             this.settingsToolStripMenuItem.Text = "Settings";
@@ -145,17 +148,24 @@
             // 
             this.CSPAUTHORING_DRIVE_NAME.ForeColor = System.Drawing.SystemColors.WindowFrame;
             this.CSPAUTHORING_DRIVE_NAME.Name = "CSPAUTHORING_DRIVE_NAME";
-            this.CSPAUTHORING_DRIVE_NAME.Size = new System.Drawing.Size(300, 23);
-            this.CSPAUTHORING_DRIVE_NAME.Text = "INPUT CSPAUTHORING DRIVE NAME HERE!";
+            this.CSPAUTHORING_DRIVE_NAME.Size = new System.Drawing.Size(400, 23);
+            this.CSPAUTHORING_DRIVE_NAME.Text = "INPUT CSPAUTHORING DRIVE NAME HERE! Default is X:\\";
             this.CSPAUTHORING_DRIVE_NAME.Click += new System.EventHandler(this.CSPAUTHORING_DRIVE_NAME_Click_1);
             // 
             // OUTPUT_DIR
             // 
             this.OUTPUT_DIR.ForeColor = System.Drawing.SystemColors.WindowFrame;
             this.OUTPUT_DIR.Name = "OUTPUT_DIR";
-            this.OUTPUT_DIR.Size = new System.Drawing.Size(300, 23);
-            this.OUTPUT_DIR.Text = "INPUT OUTPUTDIR HERE!";
+            this.OUTPUT_DIR.Size = new System.Drawing.Size(400, 23);
+            this.OUTPUT_DIR.Text = "INPUT OUTPUTDIR HERE! Default is D:\\EPGSitemapOutputDir\\";
             this.OUTPUT_DIR.Click += new System.EventHandler(this.OUTPUT_DIR_Click);
+            // 
+            // saveToolStripMenuItem
+            // 
+            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(460, 22);
+            this.saveToolStripMenuItem.Text = "Save";
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -198,6 +208,7 @@
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripTextBox CSPAUTHORING_DRIVE_NAME;
         private System.Windows.Forms.ToolStripTextBox OUTPUT_DIR;
+        private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
     }
 }
 

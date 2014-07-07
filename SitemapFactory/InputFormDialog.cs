@@ -31,7 +31,7 @@ namespace SitemapFactory
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            this.f._cspauthoringRoot = this.textBox1.Text;
+           // this.f._cspauthoringRoot = this.textBox1.Text;
         }
 
         private void textBox1_Click(object sender, EventArgs e)

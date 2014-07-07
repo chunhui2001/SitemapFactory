@@ -1,0 +1,9 @@
+C:\Users\Keesh\Documents\GitHub\SitemapFactory\SitemapFactory\bin\Release\SitemapFactory.exe
+C:\Users\Keesh\Documents\GitHub\SitemapFactory\SitemapFactory\bin\Release\SitemapFactory.pdb
+C:\Users\Keesh\Documents\GitHub\SitemapFactory\SitemapFactory\obj\Release\SitemapFactory.Form1.resources
+C:\Users\Keesh\Documents\GitHub\SitemapFactory\SitemapFactory\obj\Release\SitemapFactory.InputFormDialog.resources
+C:\Users\Keesh\Documents\GitHub\SitemapFactory\SitemapFactory\obj\Release\SitemapFactory.Properties.Resources.resources
+C:\Users\Keesh\Documents\GitHub\SitemapFactory\SitemapFactory\obj\Release\SitemapFactory.csproj.GenerateResource.Cache
+C:\Users\Keesh\Documents\GitHub\SitemapFactory\SitemapFactory\obj\Release\SitemapFactory.exe
+C:\Users\Keesh\Documents\GitHub\SitemapFactory\SitemapFactory\obj\Release\SitemapFactory.pdb
+C:\Users\Keesh\Documents\GitHub\SitemapFactory\SitemapFactory\obj\Release\SitemapFactory.csprojResolveAssemblyReference.cache

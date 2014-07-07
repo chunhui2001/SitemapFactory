@@ -8,7 +8,9 @@ using System.Net;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using System.Xml;
 using System.Xml.Linq;
+using System.Xml.XPath;
 
 namespace SitemapFactory
 {
@@ -17,10 +19,9 @@ namespace SitemapFactory
         private SubsidiaryEntry[] _subsidiaryList;
         private String[] _selectedSubsidiaryList;
 
-        public String _cspauthoringRoot = @"X:\";
 
 
-        private CheckedCombobox ccb = null;
+        public CheckedCombobox ccb = null;
 
         private void enableBtnResult()
         {
@@ -44,7 +45,6 @@ namespace SitemapFactory
             InitializeComponent();
 
 
-
             this.Click += Form1_Click;
 
             this.btnResult.BackColor = System.Drawing.Color.Gray;
@@ -61,7 +61,7 @@ namespace SitemapFactory
             this.cbbResultList.BackColor = System.Drawing.Color.Green;
             this.cbbResultList.ForeColor = System.Drawing.Color.White;
 
-            ccb = new CheckedCombobox(this.panel2, this, this.getSubsidiaryList(this.Outputdir), this._cspauthoringRoot);
+            ccb = new CheckedCombobox(this.panel2, this, this.getSubsidiaryList(this.EPGSitemapOutputDir()));
             this.panel2.Visible = false;
             this.richTextBox1.Visible = true;
             this.btnResult.Visible = false;
@@ -77,7 +77,6 @@ namespace SitemapFactory
         {
             var txt = sender as TextBox;
             txt.Text = string.Empty;
-            txt.Width = 3000;
         }
 
         void Form1_Click(object sender, EventArgs e)
@@ -166,15 +165,17 @@ namespace SitemapFactory
             // http://www.microsoft.com/enterprise/en-us/default.aspx
             _selectedSubsidiaryList = this.ccb.txtDropDownInput.Text.TrimEnd(',').Split(',');
 
-            this._subsidiaryList = this.ccb._subsidiaryEntry;
+            //this._subsidiaryList = this.ccb._subsidiaryEntry;
 
-            this.ccb._cspauthoringRoot = this._cspauthoringRoot;
-            this.ccb._subsidiaryEntry = this.getSubsidiaryList(this.Outputdir);
+            this.ccb._subsidiaryEntry = this.getSubsidiaryList(this.EPGSitemapOutputDir());
         }
 
         private SubsidiaryEntry[] getSubsidiaryList(String outputDir)
         {
-            return new SubsidiaryEntry[] { 
+            if (this._subsidiaryList == null)
+            {
+                #region
+                this._subsidiaryList = new SubsidiaryEntry[] { 
 new SubsidiaryEntry(){ Name = "ar-eg"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir}, 
 new SubsidiaryEntry(){ Name = "ar-gulf"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
 new SubsidiaryEntry(){ Name = "ar-iq"				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
@@ -262,22 +263,16 @@ new SubsidiaryEntry(){ Name = "zh-cn"				   , SitemapLastModifyDate = DateTime.P
 new SubsidiaryEntry(){ Name = "zh-tw" 				   , SitemapLastModifyDate = DateTime.Parse( "1970-01-01"), OutputDIr = outputDir},
 
         }.OrderBy(e => e.Name).ToArray();
+
+                #endregion
+            }
+
+            return this._subsidiaryList;
         }
+
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            InputFormDialog ifd = new InputFormDialog(this);
-
-            if (ifd.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
-            {
-
-            }
-            else
-            {
-                this.Close();
-                this.Dispose();
-                return;
-            }
 
         }
 
@@ -348,7 +343,7 @@ new SubsidiaryEntry(){ Name = "zh-tw" 				   , SitemapLastModifyDate = DateTime.
 
         private void loadSitePages(String[] selectedSubsidiaryList)
         {
-            RecursionFolder r = new RecursionFolder(selectedSubsidiaryList, this._cspauthoringRoot);
+            RecursionFolder r = new RecursionFolder(selectedSubsidiaryList, this.CSPAuthoringRoot());
             r.PrintMessage += updateLogPanel;
 
             DelRecursion drf = new DelRecursion(r.Recursion);
@@ -439,16 +434,22 @@ new SubsidiaryEntry(){ Name = "zh-tw" 				   , SitemapLastModifyDate = DateTime.
             var currGrid = this.getGrid(subsidiaryName);
             if (currGrid == null) return;
 
-            MethodInvoker action = delegate
-            {
-                currGrid.DataSource = urlEntryList;
-            };
-
-            currGrid.Invoke(action);
-
 
             if (urlEntryList.Count > 0)
             {
+
+                foreach (var item in urlEntryList)
+                {
+                    item.Priority = this.GetPriority(subsidiaryName, item.Loc);
+                }
+
+                MethodInvoker action = delegate
+                {
+                    currGrid.DataSource = urlEntryList;
+                };
+
+                currGrid.Invoke(action);
+
 
                 action = delegate
                {
@@ -494,7 +495,7 @@ new SubsidiaryEntry(){ Name = "zh-tw" 				   , SitemapLastModifyDate = DateTime.
             //};
             //richTextBox1.BeginInvoke(action);
 
-            
+
         }
 
 
@@ -504,7 +505,7 @@ new SubsidiaryEntry(){ Name = "zh-tw" 				   , SitemapLastModifyDate = DateTime.
             foreach (var item in this.panel_Grid.Controls)
             {
                 var grid = item as DataGridView;
-                if (grid != null)
+                if (grid != null && grid.Rows.Count > 1)
                 {
                     gridList.Add(grid);
                 }
@@ -573,7 +574,7 @@ new SubsidiaryEntry(){ Name = "zh-tw" 				   , SitemapLastModifyDate = DateTime.
                 // Save the result to outputdir
                 foreach (var item in v.Result)
                 {
-                    var fileFullName = HelperClass.getOutputSitemapFileName(item.Key, this.Outputdir);
+                    var fileFullName = HelperClass.getOutputSitemapFileName(item.Key, this.EPGSitemapOutputDir());
 
                     if (System.IO.File.Exists(fileFullName))
                     {
@@ -617,7 +618,6 @@ new SubsidiaryEntry(){ Name = "zh-tw" 				   , SitemapLastModifyDate = DateTime.
             }
         }
 
-        public String Outputdir = "D:\\EPGSitemapOutputDir";
         private int _formWidth = 0;
         private int _formHeight = 0;
         private int _ccbPanelHeight = 0;
@@ -757,16 +757,30 @@ new SubsidiaryEntry(){ Name = "zh-tw" 				   , SitemapLastModifyDate = DateTime.
         private void CSPAUTHORING_DRIVE_NAME_Click_1(object sender, EventArgs e)
         {
             var txt = sender as ToolStripTextBox;
-
+            if (this.ccb.panel.Visible)
+            {
+                this.ccb.panel.Visible = false;
+                ccb.adjustPostion();
+            }
             txt.Text = string.Empty;
         }
 
         private void OUTPUT_DIR_Click(object sender, EventArgs e)
         {
-
             var txt = sender as ToolStripTextBox;
-
+            if (this.ccb.panel.Visible)
+            {
+                this.ccb.panel.Visible = false;
+                ccb.adjustPostion();
+            }
             txt.Text = string.Empty;
+        }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // read last modify date
+            // read all subsidiary if it available
+            // read all navigations
         }
     }
 
@@ -782,8 +796,142 @@ new SubsidiaryEntry(){ Name = "zh-tw" 				   , SitemapLastModifyDate = DateTime.
             box.AppendText(text);
             box.SelectionColor = box.ForeColor;
         }
+
     }
 
+    public static class Form1Extensions
+    {
+        public static String CSPAuthoringRoot(this Form1 form)
+        {
+            String root = "";
+
+            var ctrl = form.Controls.Find("menuStrip1", true)[0] as MenuStrip;
+            ToolStripItemCollection dropDownItems = ((System.Windows.Forms.ToolStripDropDownItem)(ctrl.Items[0])).DropDownItems;
+
+            var v = dropDownItems.Find("CSPAUTHORING_DRIVE_NAME", true)[0] as ToolStripTextBox;
+
+            if (v != null)
+            {
+                root = v.Text;
+            }
+
+            if (root == @"INPUT CSPAUTHORING DRIVE NAME HERE! Default is X:\" || String.IsNullOrEmpty(root))
+            {
+                root = "X:\\";
+            }
+
+            return root;
+        }
+
+        public static String EPGSitemapOutputDir(this Form1 form)
+        {
+
+            String outputDir = "";
+
+            var ctrl = form.Controls.Find("menuStrip1", true)[0] as MenuStrip;
+            ToolStripItemCollection dropDownItems = ((System.Windows.Forms.ToolStripDropDownItem)(ctrl.Items[0])).DropDownItems;
+
+            var v = dropDownItems.Find("OUTPUT_DIR", true)[0] as ToolStripTextBox;
+
+            if (v != null)
+            {
+                outputDir = v.Text;
+            }
+
+            if (outputDir == @"INPUT OUTPUTDIR HERE! Default is D:\EPGSitemapOutputDir\" || String.IsNullOrEmpty(outputDir))
+            {
+                outputDir = "D:\\EPGSitemapOutputDir";
+            }
+
+            return outputDir;
+        }
+
+        public static String GetOneMscomNavData(this Form1 form, string subsidiaryName)
+        {
+
+            var root = GetRoot(form, subsidiaryName);
+
+            var file = string.Format("{0}\\RenderingAssets\\oneMSCOM\\oneMscomNavData.xml", root);
+
+            return file;
+        }
+
+        public static String GetRoot(this Form1 form, string subsidiaryName)
+        {
+            var root = "";
+
+
+            if (subsidiaryName == "en-gb")
+            {
+                root = string.Format("{0}{1}\\enterprise", CSPAuthoringRoot(form), subsidiaryName);
+            }
+            else
+            {
+
+                root = string.Format("{0}enterprise\\{1}", CSPAuthoringRoot(form), subsidiaryName);
+            }
+
+
+            return root;
+        }
+
+
+        public static void LoadNavigation(this Form1 form, List<string> list, string subsidiaryName)
+        {
+            var oneMscomNavData = GetOneMscomNavData(form, subsidiaryName);
+
+            if (!System.IO.File.Exists(oneMscomNavData)) return;
+
+            try
+            {
+                var doc = XDocument.Load(oneMscomNavData);
+                var root = doc.Root;
+
+                XmlNamespaceManager namespaces = new XmlNamespaceManager(new NameTable());
+                namespaces.AddNamespace("ns1", "http://schemas.microsoft.com/Csp/Content");
+
+                var urlNodeList = root.XPathSelectElements("//ns1:include", namespaces);
+
+                foreach (var item in urlNodeList)
+                {
+                    if (item.Attribute("externalPath") != null)
+                    {
+                        var url = item.Attribute("externalPath").Value.ToLower();
+                        if (!String.IsNullOrEmpty(url) && !url.EndsWith(".jpg") && !url.EndsWith(".png"))
+                        {
+                            list.Add(url);
+                        }
+                    }
+                }
+            }
+
+
+            catch (Exception e)
+            {
+
+            }
+        }
+
+
+
+        public static String GetPriority(this Form1 form, string subsidiaryName, String url)
+        {
+            var pri = "0.8";
+
+            var navs = form.ccb.Navigation[subsidiaryName];
+
+            foreach (var item in navs)
+            {
+                if (item.ToLower().Contains(url.ToLower()) || url.ToLower().Contains(item.ToLower()))
+                {
+                    pri = "1.0";
+                    break;
+                }
+            }
+
+            return pri;
+        }
+    }
 
     public static class HelperClass
     {
@@ -826,6 +974,7 @@ new SubsidiaryEntry(){ Name = "zh-tw" 				   , SitemapLastModifyDate = DateTime.
 
         public RecursionFolder(String[] subsidiaryList, String cspauthoringRoot)
         {
+
             _cspauthoringRoot = cspauthoringRoot;
             files = new List<URLEntry>();
 
@@ -902,35 +1051,41 @@ new SubsidiaryEntry(){ Name = "zh-tw" 				   , SitemapLastModifyDate = DateTime.
 
         public void Recursion(String path, String subsidiaryName)
         {
-            System.IO.DirectoryInfo di = new System.IO.DirectoryInfo(path);
-
-            if (di.Exists)
+            try
             {
-                var filesList = di.GetFiles();
+                System.IO.DirectoryInfo di = new System.IO.DirectoryInfo(path);
 
-                for (int i = 0; i < filesList.Length; i++)
+                if (di.Exists)
                 {
-                    var item = filesList[i];
+                    var filesList = di.GetFiles();
 
-                    var skip = "";
-                    if (!isSkip(item.FullName))
-                        this.result[subsidiaryName].Add(new URLEntry() { File = item, FileStatus = FileStatus.None, ID = this.result[subsidiaryName].Count + 1 });
-                    else
-                        skip = " [SKIP]";
+                    for (int i = 0; i < filesList.Length; i++)
+                    {
+                        var item = filesList[i];
 
-                    if (PrintMessage != null)
-                        PrintMessage(item.FullName + skip, System.Drawing.Color.Black, true);
-                }
+                        var skip = "";
+                        if (!isSkip(item.FullName))
+                            this.result[subsidiaryName].Add(new URLEntry() { File = item, FileStatus = FileStatus.None, ID = this.result[subsidiaryName].Count + 1 });
+                        else
+                            skip = " [SKIP]";
 
-                foreach (var item in di.GetDirectories())
-                {
-                    Recursion(item.FullName, subsidiaryName);
+                        if (PrintMessage != null)
+                            PrintMessage(item.FullName + skip, System.Drawing.Color.Black, true);
+                    }
+
+                    foreach (var item in di.GetDirectories())
+                    {
+                        Recursion(item.FullName, subsidiaryName);
+                    }
                 }
             }
+            catch (Exception e)
+            {
+                if (PrintMessage != null)
+                    PrintMessage(path + " " + e.Message, System.Drawing.Color.Red, true);
+
+            }
         }
-
-
-
     }
 
     public class LoadFileStatus
@@ -952,7 +1107,6 @@ new SubsidiaryEntry(){ Name = "zh-tw" 				   , SitemapLastModifyDate = DateTime.
         public LoadFileStatus(List<DataGridView> gridList)
         {
             // xmlns=""http://www.sitemaps.org/schemas/sitemap/0.9""
-
             this._gridList = gridList;
 
             _result = new Dictionary<string, XDocument>();
@@ -1159,7 +1313,7 @@ new SubsidiaryEntry(){ Name = "zh-tw" 				   , SitemapLastModifyDate = DateTime.
         void wc_DownloadDataCompleted(object sender, DownloadDataCompletedEventArgs e)
         {
             var cell = e.UserState as DataGridViewTextBoxCell;
-            
+
             //downloadStatus = HttpStatusCode.OK;
             try
             {
@@ -1177,9 +1331,9 @@ new SubsidiaryEntry(){ Name = "zh-tw" 				   , SitemapLastModifyDate = DateTime.
             catch (Exception)
             {
                 downloadStatus = HttpStatusCode.NotFound;
-                
+
             }
-            
+
 
             downloadCompleted = true;
         }
@@ -1188,6 +1342,7 @@ new SubsidiaryEntry(){ Name = "zh-tw" 				   , SitemapLastModifyDate = DateTime.
 
     public class URLEntry
     {
+        private String _priority = "0.8";
         public int ID { get; set; }
         public FileStatus FileStatus { get; set; }
 
@@ -1215,7 +1370,17 @@ new SubsidiaryEntry(){ Name = "zh-tw" 				   , SitemapLastModifyDate = DateTime.
             }
         }
         public String Changefreq { get { return "monthly"; } }
-        public String Priority { get { return "0.8"; } }
+        public String Priority
+        {
+            get
+            {
+                return this._priority;
+            }
+            set
+            {
+                this._priority = value;
+            }
+        }
 
 
         public override string ToString()
