@@ -102,9 +102,12 @@ namespace SitemapFactory
 
         void panel_MouseMove(object sender, MouseEventArgs e)
         {
+            var btnGo = this._form.Controls.Find("btnGo", true)[0] as Button;
+            if (!btnGo.Enabled)
+                return;
+
             if (this._dsc.isDown)
             {
-
                 this._dsc.BX = e.X;
                 this._dsc.BY = e.Y;
 
@@ -115,12 +118,20 @@ namespace SitemapFactory
 
         void panel_MouseUp(object sender, MouseEventArgs e)
         {
+            var btnGo = this._form.Controls.Find("btnGo", true)[0] as Button;
+            if (!btnGo.Enabled)
+                return;
+
             this.panel.Refresh();
             this._dsc.isDown = false;
         }
 
         void panel_MouseDown(object sender, MouseEventArgs e)
         {
+            var btnGo = this._form.Controls.Find("btnGo", true)[0] as Button;
+            if (!btnGo.Enabled)
+                return;
+
             this._dsc.AX = e.X;
             this._dsc.AY = e.Y;
 
